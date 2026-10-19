@@ -46,3 +46,5 @@ Radio covers programme and broadcast operations. Music covers library organizati
 Event Organization is the shared workspace for festivals, parties, gigs, concerts, club nights and other live events. These event types share planning, booking, production and promotion foundations; they are not separate workspaces. Record Label covers label operations across artists and releases.
 
 Browser/device/viewport architecture and browser properties are documented in BROWSER-ENVIRONMENT.md.
+
+MobileSystem, TabletSystem and DesktopSystem now provide adaptive studio interfaces; DesktopSystem integrates WindowSystem. See INTERFACE-SYSTEMS.md.

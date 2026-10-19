@@ -17,7 +17,7 @@ export class MusicPlatform{
  article{padding:24px;border:1px solid #3a493d;border-radius:12px;background:#1b241f;display:flex;flex-direction:column;align-items:flex-start}h2{font-size:22px;font-weight:500}article p{font-size:14px}ul{padding-left:18px;font-size:13px}
  .state{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#b9ef84}.open{display:inline-block;margin-top:auto;padding:11px 16px;border:1px solid #b9ef84;border-radius:6px;color:#152211;background:#b9ef84;text-decoration:none;font-size:13px}
  .planned{margin-top:auto;font-size:12px;color:#93a197}footer{display:flex;gap:18px;flex-wrap:wrap;margin-top:32px;font-size:12px}footer a{color:#b8cbbd}a:focus-visible{outline:2px solid #fff;outline-offset:4px}
- @media(max-width:800px){.workspaces{grid-template-columns:1fr}#app{padding:30px 18px}}
+ html[data-viewport-profile=mobile] .workspaces{grid-template-columns:1fr}html[data-viewport-profile=tablet] .workspaces{grid-template-columns:repeat(2,minmax(0,1fr))}html[data-viewport-profile=mobile] #app{padding:30px 18px}
  `;document.head.append(style);
  const header=element("header");header.append(element("span","FEELESS RECORDS","label"),element("h1",platform.name),element("p","One music platform for listening, broadcasting, editing, performing, and producing."));
  const workspaces=element("section",null,"workspaces");workspaces.setAttribute("aria-label","Music workspaces");

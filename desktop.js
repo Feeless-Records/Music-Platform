@@ -1,7 +1,7 @@
 import {BrowserApp} from "./browser-app.js?v=environment-1";
-import {DesktopSystem} from "./systems/desktop-system.js?v=transport-3";
+import {InterfaceSystem} from "./systems/interface-system.js?v=interfaces-1";
 const browser=new BrowserApp();
-const desktop=new DesktopSystem(document.querySelector("#desktop"));
-browser.start();desktop.start();
-window.addEventListener("pagehide",()=>{desktop.core.transportController.pause();browser.stop();});
-window.addEventListener("pageshow",event=>{if(event.persisted){browser.start();desktop.windows.reflow();}});
+const interfaces=new InterfaceSystem(document.querySelector("#desktop"));
+browser.start();interfaces.start();
+window.addEventListener("pagehide",()=>{interfaces.pause();browser.stop();});
+window.addEventListener("pageshow",event=>{if(event.persisted){browser.start();interfaces.current?.windows.reflow();}});

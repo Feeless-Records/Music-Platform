@@ -16,3 +16,29 @@
 @media(max-width:759px){.desktop-shell{grid-template-rows:58px auto minmax(0,1fr) 52px}.desktop-top{padding:0 12px}.desktop-tools{padding:8px 10px;gap:6px}.launcher{min-height:40px;padding:8px 10px}.mockup-label{width:100%;margin-left:0;font-size:8px}.window-titlebar{height:44px;min-height:44px}.window-actions button{width:42px}.panel-content{padding:18px}.lab-status,.taskbar-label{display:none}.desktop-taskbar{padding:7px 8px}.task-button{min-height:36px}.back-link{font-size:11px}.window-resize{width:32px;height:32px}}
 
 .transport-buttons{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.transport-buttons button{padding:9px 14px;border-radius:5px}.transport-buttons button:first-child{background:#b9f078;color:#14200d}.transport-panel output{display:block;font:13px ui-monospace,monospace;color:#d1e8b8;margin-bottom:14px}.transport-fields{display:grid;grid-template-columns:1fr 1fr;gap:14px}.transport-fields label{display:flex;flex-direction:column;gap:5px;font-size:11px;color:#b2bfba}.transport-fields input{max-width:100%;min-width:0;padding:6px;background:#151a1d;color:#e1e9e4;border:1px solid #4b5657;border-radius:4px;accent-color:#b9f078}.transport-panel button:disabled{opacity:.45;cursor:default}.transport-panel a{display:block;margin-top:16px;font-size:12px}.transport-panel a[hidden]{display:none}@media(max-width:500px){.transport-fields{grid-template-columns:1fr}}
+
+/* Interface systems share content and audio; presentation managers differ. */
+.layout-label{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:11px;color:#9eafa3;white-space:nowrap}.layout-label select{font:inherit;min-height:36px;border:1px solid #48544c;border-radius:5px;background:#242d27;color:#e0e9e2;padding:5px 8px}.desktop-top .back-link{margin-left:4px}
+.pane-workspace{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:10px;align-items:stretch}
+.platform-pane{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;border:1px solid #435349;border-radius:8px;background:#1d2420;position:relative}
+.platform-pane[hidden]{display:none}.platform-pane.active{border-color:#98bd7a}
+.pane-title{display:flex;align-items:center;justify-content:space-between;min-height:44px;padding:0 12px;background:#2a352d;border-bottom:1px solid #435349}
+.pane-title h2{font-size:13px;margin:0}.pane-title button{width:40px;min-height:36px;font-size:20px;border:0;background:transparent}
+.desktop-shell[data-interface="mobile"] .pane-workspace{padding:0;gap:0}.desktop-shell[data-interface="mobile"] .platform-pane{border-radius:0;border:0}
+.desktop-shell[data-interface="mobile"] .desktop-brand{display:none}.desktop-shell[data-interface="mobile"] .desktop-top{padding:0 12px;gap:10px}
+.desktop-shell[data-interface="mobile"] .desktop-tools{flex-wrap:nowrap;overflow-x:auto;padding:7px 10px}
+.desktop-shell[data-interface="mobile"] .launcher{min-height:44px;white-space:nowrap;flex-shrink:0}
+.desktop-shell[data-interface="mobile"] .mockup-label{display:none}
+.desktop-shell[data-interface="mobile"] .desktop-taskbar{padding-bottom:max(7px,env(safe-area-inset-bottom));}
+.desktop-shell[data-interface="mobile"] .taskbar-label,.desktop-shell[data-interface="mobile"] .lab-status{display:none}
+.desktop-shell[data-interface="mobile"] .task-button{min-height:40px}
+.desktop-shell[data-interface="tablet"] .pane-workspace{grid-template-columns:repeat(2,minmax(0,1fr))}
+.desktop-shell[data-interface="tablet"] .pane-workspace[data-panes="1"]{grid-template-columns:minmax(0,1fr)}
+html[data-orientation="portrait"] .desktop-shell[data-interface="tablet"] .pane-workspace[data-panes="2"]{grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(2,minmax(0,1fr))}
+@media(max-width:420px){.desktop-shell[data-interface="mobile"] .desktop-identity span{display:none}.desktop-shell[data-interface="mobile"] .layout-label{font-size:0}.desktop-shell[data-interface="mobile"] .layout-label select{font-size:11px}.desktop-shell[data-interface="mobile"] .desktop-identity strong{font-size:12px}}
+
+.desktop-shell[data-interface="mobile"]{grid-template-rows:60px auto minmax(0,1fr) calc(56px + env(safe-area-inset-bottom,0px))}
+.desktop-shell[data-interface="mobile"] .step-rack{min-width:850px}.desktop-shell[data-interface="mobile"] .step{min-height:44px}
+.desktop-shell[data-interface="tablet"] .step-rack{min-width:650px}.desktop-shell[data-interface="tablet"] .step{min-height:40px}
+.desktop-shell[data-interface="tablet"] .launcher,.desktop-shell[data-interface="tablet"] .task-button{min-height:44px}
+.pane-title button{width:44px;min-height:44px}
