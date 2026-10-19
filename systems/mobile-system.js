@@ -1,4 +1,4 @@
-import {StudioSystem} from "./studio-system.js?v=android-1";
+import {StudioSystem} from "./studio-system.js?v=android-2";
 import {PanelSystem} from "./panel-system.js";
 import {ICONS} from "./icon-system.js";
 export class MobileSystem extends StudioSystem{
