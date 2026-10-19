@@ -1,0 +1,35 @@
+export class MediaToolsPanel{
+ constructor(core){this.core=core;this.urls=[];this.disposed=false;this.job=null;}
+ mount(root){
+ const doc=root.ownerDocument;this.root=root;const make=(tag,text)=>{const el=doc.createElement(tag);if(text)el.textContent=text;return el;};
+ root.classList.add("media-tools-panel");root.append(make("h2","Import, export & audio encoding"),make("p","Audio files: up to 25 MiB and 120 seconds; decoding depends on your browser. Project JSON contains the current 4-beat pattern, tempo and project name. Audio files, recordings and other workspace data are not embedded in JSON."));
+ this.status=make("output","Ready");this.status.setAttribute("role","status");
+ const fieldset=make("fieldset"),legend=make("legend","Import");fieldset.append(legend);
+ const label=make("label","Choose audio or project JSON "),file=make("input");file.type="file";file.accept="audio/*,.wav,.mp3,.flac,.ogg,.webm,.m4a,.aac,.json";label.append(file);fieldset.append(label);this.file=file;
+ this.importButton=make("button","Import selected file");this.importButton.type="button";this.importButton.addEventListener("click",()=>this.run(async()=>{const selected=file.files?.[0];if(!selected)throw new Error("Choose a file first");if(/\.json$/i.test(selected.name)){await this.core.importer.project(selected);this.status.textContent="Project imported. Reopen Channel Rack to see the imported pattern.";}else{const asset=await this.core.importer.audio(selected);this.status.textContent="Imported "+asset.name+" · "+asset.duration.toFixed(2)+" seconds";}this.refreshSources();}));fieldset.append(this.importButton,make("p","Importing project JSON replaces the current pattern and tempo. Export a snapshot first if you want to keep the current pattern."));root.append(fieldset);
+ const project=make("button","Export pattern project JSON");project.type="button";project.addEventListener("click",()=>this.run(()=>{this.addDownload(this.core.exporter.project(),"feeless-pattern-project.json");this.status.textContent="Project snapshot ready to download";}));root.append(project);
+ const settings=make("fieldset");settings.append(make("legend","Audio encoding"));
+ const select=(text,values)=>{const wrapper=make("label",text+" "),control=make("select");control.setAttribute("aria-label",text);for(const [value,title]of values){const option=make("option",title);option.value=String(value);control.append(option);}wrapper.append(control);settings.append(wrapper);return control;};
+ this.source=select("Audio source",[]);this.format=select("Output format",coreFormats(this.core));
+ this.depth=select("WAV bit depth",[[16,"16-bit PCM"],[24,"24-bit PCM"],[32,"32-bit float"]]);
+ this.rate=select("Sample rate",[[44100,"44,100 Hz"],[48000,"48,000 Hz"],[96000,"96,000 Hz"]]);
+ this.channels=select("Channels",[[2,"Stereo"],[1,"Mono"]]);this.bitrate=select("Compressed bitrate",[[192000,"192 kbps target"],[128000,"128 kbps target"],[256000,"256 kbps target"],[320000,"320 kbps target"]]);
+ this.format.addEventListener("change",()=>this.formatState());this.formatState();root.append(settings);
+ this.encode=make("button","Encode selected audio");this.encode.type="button";this.encode.addEventListener("click",()=>this.run(async()=>{
+ const signal=this.job.signal;const id=this.source.value;let buffer;
+ if(id==="pattern")buffer=await this.core.transportController.render();
+ else{const source=id.startsWith("take:")?this.core.recording.takes.find(item=>item.id===id.slice(5)):this.core.importer.assets.find(item=>item.id===id.slice(6));if(!source)throw new Error("Select an available audio source");buffer=await this.core.importer.decode(source.blob);}
+ if(signal.aborted||this.disposed)throw new Error("Encoding cancelled");this.status.textContent=this.format.value==="wav"?"Encoding WAV…":"Encoding compressed audio in real time… Keep this tab active.";const result=await this.core.encoder.encode(buffer,{format:this.format.value,depth:Number(this.depth.value),sampleRate:Number(this.rate.value),channels:Number(this.channels.value),bitrate:Number(this.bitrate.value),signal});
+ if(this.disposed)return;this.addDownload(result.blob,"feeless-audio."+result.extension);this.status.textContent="Encoded "+(result.blob.size/1024).toFixed(1)+" KiB · ready to download";
+ },true));
+ this.cancel=make("button","Cancel encoding");this.cancel.type="button";this.cancel.disabled=true;this.cancel.addEventListener("click",()=>this.job?.abort());root.append(this.encode,this.cancel,make("p","WAV encodes offline. Compressed export runs in real time without speaker playback; keep this tab active. Bitrate is a browser-controlled target. Imported audio files and encoded results are session-only; download before reloading. MP3 and FLAC encoding are not included. Only browser-supported compressed formats appear."));
+ this.outputs=make("div");this.outputs.className="media-outputs";root.append(this.status,this.outputs);
+ this.unsubscribe=this.core.importer.subscribe(()=>this.refreshSources());this.unrecord=this.core.recording.subscribe(()=>this.refreshSources());this.refreshSources();return this;
+ }
+ formatState(){this.depth.disabled=this.format.value!=="wav";this.bitrate.disabled=this.format.value==="wav";}
+ refreshSources(){if(this.disposed)return;const previous=this.source.value;this.source.replaceChildren();for(const [id,label]of [["pattern","Current Channel Rack pattern"],...this.core.importer.assets.map(item=>["asset:"+item.id,"File: "+item.name]),...this.core.recording.takes.map(item=>["take:"+item.id,item.name])]){const option=this.root.ownerDocument.createElement("option");option.value=id;option.textContent=label;this.source.append(option);}if([...this.source.options].some(option=>option.value===previous))this.source.value=previous;}
+ async run(action,encoding=false){if(this.running)return;this.running=true;this.job=new AbortController();this.encode.disabled=true;this.importButton.disabled=true;this.cancel.disabled=!encoding;this.status.textContent="Processing…";try{await action();}catch(error){if(!this.disposed)this.status.textContent=error.message;}finally{this.running=false;this.job=null;if(!this.disposed){this.encode.disabled=false;this.importButton.disabled=false;this.cancel.disabled=true;}}}
+ addDownload(blob,name){if(this.disposed)return;const url=URL.createObjectURL(blob);this.urls.push(url);const row=this.root.ownerDocument.createElement("div"),link=this.root.ownerDocument.createElement("a");link.href=url;link.download=name;link.textContent="Download "+name;row.append(link);if(blob.type.startsWith("audio/")){const audio=this.root.ownerDocument.createElement("audio");audio.controls=true;audio.src=url;row.append(audio);}this.outputs.append(row);}
+ dispose(){this.disposed=true;this.job?.abort();this.unsubscribe?.();this.unrecord?.();for(const url of this.urls)URL.revokeObjectURL(url);}
+}
+function coreFormats(core){return core.encoder.formats().map(format=>[format.id,format.name]);}

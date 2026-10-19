@@ -14,12 +14,12 @@ export function restorePattern(core,value){
  core.loadPattern("pattern-1");return true;
 }
 export function bindStudioStorage(consent,interfaces,{store=new StudioPersistenceSystem()}={}){
- let unsubscribe,saveTimer,generation=0,dirty=false;
+ let unsubscribe,unimport,saveTimer,generation=0,dirty=false;
  const root=interfaces.root;
  const save=()=>{if(!consent.choice?.storage)return;clearTimeout(saveTimer);const currentGeneration=generation;saveTimer=setTimeout(async()=>{if(!consent.choice?.storage||currentGeneration!==generation)return;const core=interfaces.core;try{await store.write({version:1,notes:structuredClone(core.workflow.patterns.get("pattern-1").notes),bpm:core.timeline.bpm,takes:structuredClone(core.recording.takes),mode:interfaces.mode});consent.report("Studio saved on this device. "+(consent.persistence.includes("Protection granted")?"Protection granted.":"Download important recordings as a backup."));}catch{consent.report("Local saving failed or storage is full. Download your recordings.");}},200);};
  root.addEventListener("click",()=>{dirty=true;save();});root.addEventListener("change",()=>{dirty=true;consent.saveLayout(interfaces.mode);save();});
  const activate=async()=>{
- const token=++generation;unsubscribe?.();unsubscribe=null;clearTimeout(saveTimer);
+ const token=++generation;unsubscribe?.();unimport?.();unsubscribe=null;unimport=null;clearTimeout(saveTimer);
  if(!consent.choice?.storage)return;
  const initialDirty=dirty;try{const saved=await store.read();if(!consent.choice?.storage||token!==generation)return;
  if(saved?.version===1){
@@ -27,9 +27,9 @@ export function bindStudioStorage(consent,interfaces,{store=new StudioPersistenc
  const takes=Array.isArray(saved.takes)?saved.takes.filter(t=>t&&typeof t.id==="string"&&typeof t.name==="string"&&typeof t.mime==="string"&&t.blob instanceof Blob&&t.blob.size>0):[];
  const map=new Map(takes.map(t=>[t.id,t]));for(const take of interfaces.core.recording.takes)map.set(take.id,take);interfaces.core.recording.takes=[...map.values()];interfaces.core.recording.emit();
  }
- unsubscribe=interfaces.core.recording.subscribe(()=>save());
+ unsubscribe=interfaces.core.recording.subscribe(()=>save());unimport=interfaces.core.importer?.subscribe(()=>save());
  }catch{consent.report("Local storage is unavailable. The studio still works; download recordings before leaving.");}
  };
  consent.subscribe(activate);activate();
- return {save,stop(){++generation;clearTimeout(saveTimer);unsubscribe?.();}};
+ return {save,stop(){++generation;clearTimeout(saveTimer);unsubscribe?.();unimport?.();}};
 }
