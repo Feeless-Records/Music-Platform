@@ -1,6 +1,6 @@
-import {StudioSystem} from "./studio-system.js?v=media-1";
+import {StudioSystem} from "./studio-system.js?v=media-2";
 import {PanelSystem} from "./panel-system.js";
-import {ICONS} from "./icon-system.js?v=media-1";
+import {ICONS} from "./icon-system.js?v=media-2";
 export class TouchSystem extends StudioSystem{
  constructor(root,options={}){super(root,{...options,layout:options.layout??"mobile"});this.history=[];}
  initialPanels(){return [];}

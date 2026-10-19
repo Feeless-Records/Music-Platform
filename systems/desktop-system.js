@@ -1,5 +1,5 @@
-import {DesktopIconSystem} from "./desktop-icon-system.js?v=media-1";
-import {StudioSystem} from "./studio-system.js?v=media-1";
+import {DesktopIconSystem} from "./desktop-icon-system.js?v=media-2";
+import {StudioSystem} from "./studio-system.js?v=media-2";
 import {WindowSystem} from "./window-system.js";
 export class DesktopSystem extends StudioSystem{
  constructor(root,options={}){super(root,{...options,layout:"desktop"});}

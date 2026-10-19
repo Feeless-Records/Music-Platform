@@ -1,6 +1,6 @@
 import {ImportSystem} from "./import-system.js";
 import {ExportSystem} from "./export-system.js";
-import {AudioEncodingSystem} from "./audio-encoding.js";
+import {AudioEncodingSystem} from "./audio-encoding.js?v=media-2";
 import {WebAssemblySystem} from "./webassembly-system.js";
 import {AudioRecordingSystem} from "./audio-recording.js";
 import {IndustrySystem} from "./industry-system.js";

@@ -28,7 +28,7 @@ export class AudioEncodingSystem{
  }
  async compressed(buffer,format,bitrate,signal){
  const engine=this.core.transportController.engine;await engine.resume();if(signal?.aborted)throw new Error("Encoding cancelled");
- const context=engine.context,destination=context.createMediaStreamDestination(),source=context.createBufferSource();source.buffer=buffer;source.connect(destination);
+ const context=engine.context,destination=context.createMediaStreamDestination(),source=context.createBufferSource();destination.channelCount=buffer.numberOfChannels;destination.channelCountMode="explicit";source.buffer=buffer;source.connect(destination);
  return new Promise((resolve,reject)=>{
  let recorder,timeout,settled=false;const chunks=[];
  const cleanup=()=>{clearTimeout(timeout);signal?.removeEventListener("abort",cancel);source.onended=null;try{source.stop();}catch{}source.disconnect();for(const track of destination.stream.getTracks())track.stop();destination.disconnect();if(recorder&&recorder.state!=="inactive")recorder.stop();};

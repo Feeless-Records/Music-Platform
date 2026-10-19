@@ -1,9 +1,9 @@
-import {MediaToolsPanel} from "./media-tools-panel.js";
+import {MediaToolsPanel} from "./media-tools-panel.js?v=media-2";
 import {WebTechnologyPanel} from "./web-technology-panel.js";
-import {RecordingPanel} from "./recording-panel.js?v=media-1";
-import {IconSystem} from "./icon-system.js?v=media-1";
+import {RecordingPanel} from "./recording-panel.js?v=media-2";
+import {IconSystem} from "./icon-system.js?v=media-2";
 import {TransportPanel} from "./transport-panel.js?v=transport-2";
-import {StudioCore} from "./studio-core.js?v=media-1";
+import {StudioCore} from "./studio-core.js?v=media-2";
 function node(tag,className,text){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;}
 export class StudioSystem{
  constructor(root,{core=new StudioCore(),layout="desktop",mode="auto",onLayoutChange=()=>{}}={}){this.root=root;this.core=core;this.layout=layout;this.mode=mode;this.onLayoutChange=onLayoutChange;if(!this.core.workflow.patterns.patterns.has("pattern-1"))this.core.workflow.patterns.create("pattern-1");for(const id of ["Kick","Snare","Hat","Bass"])if(!this.core.workflow.channelRack.channels.has(id))this.core.workflow.channelRack.add(id);}
