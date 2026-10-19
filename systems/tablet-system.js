@@ -1,7 +1,7 @@
-import {StudioSystem} from "./studio-system.js?v=android-2";
+import {TouchSystem} from "./touch-system.js?v=tablet-1";
 import {PanelSystem} from "./panel-system.js";
-export class TabletSystem extends StudioSystem{
+// Tablet owns a split workspace and a persistent app dock.
+export class TabletSystem extends TouchSystem{
  constructor(root,options={}){super(root,{...options,layout:"tablet"});}
- initialPanels(){return ["rack","transport"];}
  createManager(workspace,taskbar){return new PanelSystem(workspace,taskbar,{split:true});}
 }

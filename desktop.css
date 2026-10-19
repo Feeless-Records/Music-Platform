@@ -56,18 +56,18 @@ html[data-orientation="portrait"] .desktop-shell[data-interface="tablet"] .pane-
 [data-interface="mobile"] .task-button .studio-icon{width:18px;height:18px}
 
 /* Android-inspired mobile shell: home, app surface, recents, navigation. */
-.desktop-shell[data-interface="mobile"]{position:relative;grid-template-rows:64px minmax(0,1fr) calc(64px + env(safe-area-inset-bottom,0px));background:#111b19}
-[data-interface="mobile"] .desktop-tools{display:none!important}
-[data-interface="mobile"] .desktop-top{grid-row:1;border:0;background:#17231f;padding-top:env(safe-area-inset-top,0px)}
-[data-interface="mobile"] .desktop-identity span{display:none}
-[data-interface="mobile"] .desktop-identity strong{font-size:17px}
-[data-interface="mobile"] .back-link{font-size:10px}
-[data-interface="mobile"] .desktop-workspace{grid-row:2;background:radial-gradient(ellipse at 0% 80%,#38624e99,transparent 65%),radial-gradient(ellipse at 100% 0%,#475d3d88,transparent 70%),#14221e}
-[data-interface="mobile"] .desktop-watermark{display:none}
-[data-interface="mobile"] .platform-pane{background:#15201c}
-[data-interface="mobile"] .pane-title{background:#25372e;border:0;min-height:54px}
-[data-interface="mobile"] .panel-content{padding:22px 18px}
-[data-interface="mobile"] .transport-buttons button{border-radius:22px;min-height:48px}
+.desktop-shell:is([data-interface="mobile"],[data-interface="tablet"]){position:relative;grid-template-rows:64px minmax(0,1fr) calc(64px + env(safe-area-inset-bottom,0px));background:#111b19}
+:is([data-interface="mobile"],[data-interface="tablet"]) .desktop-tools{display:none!important}
+:is([data-interface="mobile"],[data-interface="tablet"]) .desktop-top{grid-row:1;border:0;background:#17231f;padding-top:env(safe-area-inset-top,0px)}
+:is([data-interface="mobile"],[data-interface="tablet"]) .desktop-identity span{display:none}
+:is([data-interface="mobile"],[data-interface="tablet"]) .desktop-identity strong{font-size:17px}
+:is([data-interface="mobile"],[data-interface="tablet"]) .back-link{font-size:10px}
+:is([data-interface="mobile"],[data-interface="tablet"]) .desktop-workspace{grid-row:2;background:radial-gradient(ellipse at 0% 80%,#38624e99,transparent 65%),radial-gradient(ellipse at 100% 0%,#475d3d88,transparent 70%),#14221e}
+:is([data-interface="mobile"],[data-interface="tablet"]) .desktop-watermark{display:none}
+:is([data-interface="mobile"],[data-interface="tablet"]) .platform-pane{background:#15201c}
+:is([data-interface="mobile"],[data-interface="tablet"]) .pane-title{background:#25372e;border:0;min-height:54px}
+:is([data-interface="mobile"],[data-interface="tablet"]) .panel-content{padding:22px 18px}
+:is([data-interface="mobile"],[data-interface="tablet"]) .transport-buttons button{border-radius:22px;min-height:48px}
 .mobile-home{height:100%;min-height:0;overflow:auto;padding:clamp(20px,5vw,40px);display:flex;flex-direction:column}
 .mobile-home[hidden]{display:none}
 .mobile-home-hero{text-align:center;padding:clamp(20px,6vh,64px) 0 30px}
@@ -85,11 +85,34 @@ html[data-orientation="portrait"] .desktop-shell[data-interface="tablet"] .pane-
 .mobile-navigation{grid-row:3;display:flex;align-items:center;justify-content:space-evenly;background:#17231f;padding:4px 12px max(4px,env(safe-area-inset-bottom,0px));z-index:10}
 .mobile-navigation button{display:flex;flex-direction:column;align-items:center;gap:0;min-width:72px;min-height:52px;border:0;border-radius:24px;background:transparent}
 .mobile-navigation button:hover{background:#ffffff12}.mobile-navigation span{font-size:28px;line-height:32px}.mobile-navigation small{font-size:9px;color:#bbcec0}
-[data-interface="mobile"] .desktop-taskbar{display:none}
-[data-interface="mobile"][data-mobile-screen="home"] .platform-pane,[data-interface="mobile"][data-mobile-screen="recents"] .platform-pane{display:none}
-[data-interface="mobile"][data-mobile-screen="recents"] .desktop-taskbar{display:flex;position:absolute;top:64px;bottom:calc(64px + env(safe-area-inset-bottom,0px));left:0;right:0;z-index:5;background:#14221e;padding:24px;align-items:stretch;border:0}
-[data-interface="mobile"][data-mobile-screen="recents"] .task-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-content:start}
-[data-interface="mobile"][data-mobile-screen="recents"] .task-button{border-radius:24px;min-height:150px;background:#26392f;border:1px solid #56745b;white-space:normal;font-size:14px}
-[data-interface="mobile"][data-mobile-screen="recents"] .task-button .studio-icon{width:36px;height:36px;margin-bottom:14px;color:#c9e7ad}
+:is([data-interface="mobile"],[data-interface="tablet"]) .desktop-taskbar{display:none}
+:is([data-interface="mobile"],[data-interface="tablet"])[data-mobile-screen="home"] .platform-pane,:is([data-interface="mobile"],[data-interface="tablet"])[data-mobile-screen="recents"] .platform-pane{display:none}
+:is([data-interface="mobile"],[data-interface="tablet"])[data-mobile-screen="recents"] .desktop-taskbar{display:flex;position:absolute;top:64px;bottom:calc(64px + env(safe-area-inset-bottom,0px));left:0;right:0;z-index:5;background:#14221e;padding:24px;align-items:stretch;border:0}
+:is([data-interface="mobile"],[data-interface="tablet"])[data-mobile-screen="recents"] .task-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-content:start}
+:is([data-interface="mobile"],[data-interface="tablet"])[data-mobile-screen="recents"] .task-button{border-radius:24px;min-height:150px;background:#26392f;border:1px solid #56745b;white-space:normal;font-size:14px}
+:is([data-interface="mobile"],[data-interface="tablet"])[data-mobile-screen="recents"] .task-button .studio-icon{width:36px;height:36px;margin-bottom:14px;color:#c9e7ad}
 .mobile-recents-empty{position:absolute;inset:35% 24px auto;text-align:center;font-size:15px}
 @media(orientation:landscape) and (max-height:600px){.mobile-home{display:grid;grid-template-columns:1fr 1fr;gap:20px}.mobile-home-hero{padding:0}.mobile-home-note{grid-column:1/-1}.mobile-app-grid{gap:8px;margin:0 auto}.mobile-clock{font-size:48px}.mobile-home-hero p{margin-bottom:12px}}
+
+/* Tablet presentation: shared touch navigation, its own dock and split workspace. */
+.desktop-shell[data-interface="tablet"]{grid-template-rows:64px minmax(0,1fr) 78px calc(64px + env(safe-area-inset-bottom,0px))}
+[data-interface="tablet"] .desktop-top{grid-row:1}
+[data-interface="tablet"] .desktop-workspace{grid-row:2}
+.desktop-shell[data-interface="tablet"] .desktop-tools{display:flex!important;grid-row:3;justify-content:center;flex-wrap:nowrap;overflow:auto;border:0;background:#17231f;padding:6px 12px;gap:12px}
+[data-interface="tablet"] .desktop-tools .mockup-label{display:none}
+[data-interface="tablet"] .launcher{flex-direction:column;gap:5px;min-height:60px;min-width:88px;border-radius:20px;border:0;background:#293e32}
+[data-interface="tablet"] .launcher .studio-icon{color:#c9e7ad}
+[data-interface="tablet"] .mobile-navigation{grid-row:4}
+[data-interface="tablet"] .mobile-home{grid-column:1/-1;grid-row:1/-1;width:100%;padding:32px}
+[data-interface="tablet"] .mobile-app-grid{grid-template-columns:repeat(5,minmax(0,1fr));max-width:740px;gap:24px}
+[data-interface="tablet"] .mobile-app-icon .studio-icon{width:72px;height:72px;border-radius:24px;padding:20px}
+[data-interface="tablet"] .mobile-home-hero h1{font-size:28px}
+[data-interface="tablet"][data-mobile-screen="home"] .pane-workspace{grid-template-columns:1fr;grid-template-rows:1fr}
+[data-interface="tablet"][data-mobile-screen="recents"] .desktop-taskbar{bottom:calc(142px + env(safe-area-inset-bottom,0px))}
+[data-interface="tablet"][data-mobile-screen="recents"] .task-list{grid-template-columns:repeat(3,minmax(0,1fr));max-width:1100px;width:100%;margin:auto;align-self:start}
+[data-interface="tablet"][data-mobile-screen="recents"] .task-button{min-height:210px}
+html[data-orientation="landscape"] [data-interface="tablet"] .mobile-home{display:grid;grid-template-columns:minmax(240px,1fr) minmax(0,1.5fr);align-items:center;gap:32px}
+html[data-orientation="landscape"] [data-interface="tablet"] .mobile-app-grid{grid-template-columns:repeat(3,minmax(0,1fr));margin:auto}
+html[data-orientation="landscape"] [data-interface="tablet"] .mobile-home-note{grid-column:1/-1}
+
+[data-interface="tablet"] .mobile-home[hidden]{display:none!important}

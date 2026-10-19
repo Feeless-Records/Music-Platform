@@ -20,7 +20,7 @@ test("three interface systems reuse one project and preserve notes",()=>{
  const tablet=new TabletSystem({}, {core}),desktop=new DesktopSystem({}, {core});
  assert.equal(mobile.core,tablet.core);assert.equal(tablet.core,desktop.core);
  assert.equal(core.workflow.patterns.get("pattern-1").notes.length,1);assert.equal(core.sequencer.notes.length,1);
- assert.deepEqual(mobile.initialPanels(),[]);assert.deepEqual(tablet.initialPanels(),["rack","transport"]);
+ assert.deepEqual(mobile.initialPanels(),[]);assert.deepEqual(tablet.initialPanels(),[]);
 });
 function element(){
  const classes=new Set();return {children:[],attributes:{},hidden:false,clientWidth:800,clientHeight:600,
@@ -48,4 +48,14 @@ test("mobile Back skips closed tools and returns home without changing audio",()
  MobileSystem.prototype.back.call(mobile);assert.deepEqual(restored,["rack"]);assert.deepEqual(screens,["app"]);
  MobileSystem.prototype.back.call(mobile);assert.equal(screens.at(-1),"home");
  mobile.root.dataset.mobileScreen="recents";MobileSystem.prototype.back.call(mobile);assert.equal(screens.at(-1),"home");
+});
+
+test("tablet shares touch navigation but independently enables split panels",()=>{
+ const previous=globalThis.document;globalThis.document={createElement:element};
+ try{const core=new StudioCore(),tablet=new TabletSystem({}, {core}),mobile=new MobileSystem({}, {core});
+ assert.equal(tablet.layout,"tablet");assert.equal(mobile.layout,"mobile");
+ const tabletPanels=tablet.createManager(element(),element()),mobilePanels=mobile.createManager(element(),element());
+ assert.equal(tabletPanels.split,true);assert.equal(mobilePanels.split,false);
+ assert.equal(tablet.back,mobile.back);assert.equal(tablet.core,mobile.core);
+ }finally{globalThis.document=previous;}
 });

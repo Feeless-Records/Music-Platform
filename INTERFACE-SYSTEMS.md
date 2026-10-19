@@ -45,3 +45,6 @@ DesktopIconSystem is a separate desktop-only shortcut surface built on that voca
 
 ## Android-inspired mobile shell
 Mobile opens on a home screen with a local clock and labelled studio app icons. Back follows the previously opened tools, Home returns to the launcher, and Recent apps lists open tools. Navigation changes presentation without stopping audio or replacing project state. This is a browser interface, not an Android emulator; system permissions and notifications remain browser-managed.
+
+## Tablet touch shell
+MobileSystem and TabletSystem share TouchSystem for Home, Back, Recent apps and the local clock. TabletSystem independently selects a two-pane PanelSystem, a persistent app dock, a wider home grid, and larger recent-app cards. Landscape uses side-by-side panes and portrait stacks panes. Home and Recent apps hide panes without closing tools or interrupting the shared audio core. DesktopSystem remains separate.
