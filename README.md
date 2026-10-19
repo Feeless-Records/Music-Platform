@@ -9,7 +9,6 @@ Main development repository for the integrated Feeless Records music software pl
 | Digital Audio Workstation | Patterns, composition, sequencing, arrangement, synthesis, MIDI and rendering | Working prototype; partial integration |
 | Radio Workspace | Programme playlists, scheduling, live/recorded shows and stream management | Planned |
 | Music Workspace | Music library, tracks/artists/releases, playlists, listening queue, metadata and search | Planned |
-
 | Record Label Workspace | Artist/catalogue management, releases/distribution, rights/credits/royalties and promotion | Planned |
 | Event Organization Workspace | Festivals, parties, gigs, concerts, club nights; lineups, venues/stages/crew, schedules, ticketing and budgets | Planned |
 
