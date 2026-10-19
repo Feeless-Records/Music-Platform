@@ -1,0 +1,60 @@
+export class LayoutSystem {
+  constructor(root){this.root=root;}
+  renderWelcome(title,subtitle){
+    const group=document.createElement("div");group.className="welcome-group";
+    const h=document.createElement("h1");h.textContent=title;
+    const button=document.createElement("button");
+    button.type="button";button.id="startButton";button.textContent="Play Sample";
+    button.setAttribute("aria-pressed","false");
+    const saw=document.createElement("button");
+    saw.type="button";saw.id="simpleSynthButton";saw.textContent="Play SimpleSynth";
+    saw.setAttribute("aria-pressed","false");
+    const label=document.createElement("label");
+    label.htmlFor="frequencySlider";label.className="frequency-label";
+    label.textContent="Frequency: ";
+    const value=document.createElement("output");value.id="frequencyValue";value.textContent="440 Hz";
+    label.append(value);
+    const slider=document.createElement("input");
+    slider.type="range";slider.id="frequencySlider";slider.min="0";slider.max="1000";
+    slider.step="1";slider.value=String(Math.round(1000*Math.log(440/20)/Math.log(1000)));slider.setAttribute("aria-label","Saw wave frequency in Hz");
+    const fftCanvas=document.createElement("canvas");
+    fftCanvas.id="fftAnalyzer";
+    fftCanvas.setAttribute("aria-label","FFT spectrum analyzer with sixteen bands");
+    const chordField=document.createElement("div");
+    chordField.id="chordDisplay";chordField.setAttribute("role","status");
+    chordField.setAttribute("aria-live","off");
+    chordField.textContent="Аккорд: — | Нет нажатых нот";
+    const quintButton=document.createElement("button");
+    quintButton.type="button";quintButton.id="quintButton";quintButton.textContent="Show quint circle";
+    quintButton.setAttribute("aria-pressed","false");
+    const volumeGroup=document.createElement("div");
+    volumeGroup.className="master-volume";
+    const volumeLabel=document.createElement("div");
+    volumeLabel.textContent="MASTER VOLUME";
+    volumeLabel.className="master-volume-label";
+    const knob=document.createElement("div");
+    knob.id="masterVolumeKnob";knob.tabIndex=0;knob.setAttribute("role","slider");
+    knob.setAttribute("aria-label","Master volume");
+    knob.setAttribute("aria-valuemin","0");knob.setAttribute("aria-valuemax","100");
+    knob.setAttribute("aria-orientation","vertical");
+    const pointer=document.createElement("span");pointer.className="knob-pointer";knob.append(pointer);
+    const volumeValue=document.createElement("output");volumeValue.id="masterVolumeValue";
+    volumeGroup.append(volumeLabel,knob,volumeValue);
+    const midiPanel=document.createElement("section");midiPanel.id="midiDevices";
+    const midiHeading=document.createElement("h2");midiHeading.textContent="MIDI Devices";
+    const midiStatus=document.createElement("div");midiStatus.id="midiDeviceStatus";midiStatus.textContent="Checking MIDI access…";
+    const midiGrid=document.createElement("div");midiGrid.className="midi-device-grid";
+    const createColumn=(title,id)=>{const column=document.createElement("div");const name=document.createElement("h3");name.textContent=title;const list=document.createElement("ul");list.id=id;column.append(name,list);return {column,list};};
+    const midiInputs=createColumn("MIDI IN","midiInputs");
+    const midiOutputs=createColumn("MIDI OUT","midiOutputs");
+    midiGrid.append(midiInputs.column,midiOutputs.column);
+    midiPanel.append(midiHeading,midiStatus,midiGrid);
+    const p=document.createElement("p");p.textContent=subtitle;
+    const hint=document.createElement("p");
+    hint.className="keyboard-hint";
+    hint.textContent="Keyboard: Q 2 W 3 E ... [ = ] (C4–G5), Z S X D C ... / (C3–E4). Hold keys to play notes.";
+    group.append(h,volumeGroup,button,saw,label,slider,fftCanvas,chordField,midiPanel,quintButton,hint,p);
+    this.root.replaceChildren(group);
+    return {startButton:button,simpleSynthButton:saw,frequencySlider:slider,frequencyValue:value,fftCanvas,chordField,quintButton,masterKnob:knob,masterValue:volumeValue,midiStatus,midiInputs:midiInputs.list,midiOutputs:midiOutputs.list};
+  }
+}

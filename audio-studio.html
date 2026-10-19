@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FEELESS DAW | Audio Studio</title>
+<style>
+:root{color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:#10121a;color:#eef1f8;font-family:system-ui,sans-serif;overflow:auto}
+main{height:auto;min-height:100vh;min-height:100dvh;padding:24px 16px 72px;display:grid;place-content:center;text-align:center;gap:12px}
+h1{
+  margin:0;
+  font-family:system-ui, "Segoe UI", sans-serif;
+  font-size:clamp(2.5rem,7vw,5.6rem);
+  font-weight:900;
+  letter-spacing:.095em;
+  line-height:1.15;
+  text-transform:uppercase;
+  background:linear-gradient(180deg,#fff 0%,#d4f6ff 18%,#78dcff 38%,#208afe 65%,#9565ec 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  -webkit-text-fill-color:transparent;
+  color:#92dfff;
+  filter:drop-shadow(0 3px 0 #143a82) drop-shadow(0 6px 0 #0b2052) drop-shadow(0 12px 14px #000b) drop-shadow(0 0 16px #23a8ff70);
+  transform:perspective(900px) rotateX(10deg);
+  padding:.12em .04em .2em;
+}
+p{margin:0;color:#aeb5c6}
+.welcome-group{display:flex;flex-direction:column;align-items:stretch;width:min(var(--device-max-width,960px),calc(100vw - 32px));gap:var(--device-gap,12px);min-width:0}
+.welcome-group h1{white-space:normal}
+.welcome-group{
+  padding:20px 22px;
+  border:1px solid #618ee833;
+  border-radius:16px;
+  background:linear-gradient(160deg,#141e32e8,#0a0d1cdd);
+  box-shadow:inset 0 0 24px #5c9efa11,0 16px 45px #0007;
+  backdrop-filter:blur(5px);
+}
+.master-volume{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px}
+.master-volume-label{font:700 12px system-ui;letter-spacing:.18em;color:#9ecbf6}
+#masterVolumeKnob{position:relative;width:78px;height:78px;border-radius:50%;cursor:ns-resize;touch-action:none;outline:none;
+background:radial-gradient(circle at 35% 28%,#62728b,#29334c 58%,#101627 80%);
+border:3px solid #7c95b8;box-shadow:inset 0 3px 9px #0008,0 6px 16px #000a,0 0 15px #44aaff33}
+#masterVolumeKnob:focus-visible{outline:3px solid #79d8ff;outline-offset:4px}
+.knob-pointer{position:absolute;inset:9px;border-radius:50%;transform:rotate(var(--knob-angle,135deg))}
+.knob-pointer:after{content:"";position:absolute;top:0;left:calc(50% - 2px);width:4px;height:19px;border-radius:4px;background:#79ddff;box-shadow:0 0 8px #25bfff}
+#masterVolumeValue{font:700 15px system-ui;color:#ffda9b}
+#startButton,#simpleSynthButton,#quintButton{height:1cm;min-height:38px;width:100%;border:1px solid #f6c16c;border-radius:7px;background:#222a3b;color:#ffda9b;font:600 16px system-ui,sans-serif;cursor:pointer;transition:background .1s,color .1s,transform .1s,box-shadow .1s}
+#startButton:active,#startButton.is-playing,#simpleSynthButton:active,#simpleSynthButton.is-playing,#quintButton:active,#quintButton[aria-pressed="true"]{background:#ffb542;color:#131722;transform:translateY(2px);box-shadow:inset 0 3px 8px #0007}
+#startButton:focus-visible,#simpleSynthButton:focus-visible,#quintButton:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.frequency-label{font-size:13px;color:#aeb5c6;display:flex;justify-content:space-between;align-items:center}
+#frequencySlider{width:100%;accent-color:#ffb542;cursor:pointer;touch-action:pan-y}
+#simpleSynthButton{touch-action:none}
+#fftAnalyzer{display:block;width:100%;height:4cm;min-height:130px;border:1px solid #424c64;border-radius:5px;background:#151b29}
+#midiDevices{border:1px solid #424c64;background:#151b29;border-radius:8px;padding:12px;text-align:left}
+#midiDevices h2{margin:0 0 6px;font-size:17px;color:#9ecbf6}
+#midiDeviceStatus{font-size:12px;color:#aeb5c6;margin-bottom:9px}
+.midi-device-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.midi-device-grid h3{font-size:12px;letter-spacing:.09em;color:#ffda9b;margin:0 0 7px}
+.midi-device-grid ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.midi-device-grid li{background:#222a3b;padding:8px;border-radius:5px;overflow-wrap:anywhere;font-size:12px}
+.midi-device-grid small{display:block;color:#aeb5c6;margin-top:3px}
+@media(max-width:520px){.midi-device-grid{grid-template-columns:1fr}}
+#chordDisplay{width:100%;min-height:39px;padding:9px;border:1px solid #424c64;border-radius:6px;background:#151b29;color:#ffda9b;font:500 13px system-ui,sans-serif;text-align:center;overflow-wrap:anywhere}
+#quintCircle{position:fixed;top:12px;left:12px;width:min(440px,45vw);max-height:calc(100dvh - 24px);object-fit:contain;z-index:100;background:#000;border:1px solid #5b6375;border-radius:8px;box-shadow:0 10px 40px #0009;pointer-events:none}
+#quintCircle[hidden]{display:none}
+@media(max-width:650px){#quintCircle{width:min(92vw,440px)}}
+.fly-track{position:fixed;inset:0;width:100vw;height:100vh;overflow:hidden;pointer-events:none;--fly-x:0px;--fly-y:0px}
+#flying,.fly-track>svg,#flying-label{
+  position:absolute;top:0;left:0;width:min(540px,75vw);height:100px;
+  display:block;transform:translate3d(var(--fly-x),var(--fly-y),0);will-change:transform
+}
+#flying{background:transparent}
+.fly-track>svg{overflow:visible}
+#flying-label{display:flex;align-items:center;justify-content:center;font-size:clamp(20px,3.3vw,37px);font-weight:900;white-space:nowrap;color:#ffb542;text-shadow:0 0 12px #fb923c,0 0 28px #ea580c}
+#flying-label[hidden]{display:none}
+#status{position:static;margin:0 16px 16px;overflow-wrap:anywhere;font-size:12px;color:#92a0b6}
+
+
+/* Device families: retain usable controls in small and rotated viewports. */
+.welcome-group p{overflow-wrap:anywhere}
+#chordDisplay{box-sizing:border-box}
+html[data-device="mobile"] #startButton,html[data-device="mobile"] #simpleSynthButton,html[data-device="mobile"] #quintButton{min-height:44px}
+html[data-device="mobile"] .keyboard-hint{font-size:12px}
+html[data-orientation="landscape"][data-device="mobile"] main{padding-top:16px}
+.prototype-footer{padding:0 20px 24px;text-align:center;font-size:12px}.prototype-footer a{color:#aebf9d;text-underline-offset:4px}
+</style>
+<script type="module" src="app.js?v=transport-3"></script>
+</head>
+<body>
+<main id="app"></main>
+<div class="fly-track"><canvas id="flying" aria-label="Saatana! Perkele!"></canvas><div id="flying-label" aria-label="Animated text"></div></div>
+<div id="status" role="status">Initializing WebAssembly and WebGPU…</div>
+<footer class="prototype-footer"><a href="./desktop.html">Desktop mockup ↗</a></footer>
+</body>
+</html>
