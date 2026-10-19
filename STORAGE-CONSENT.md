@@ -1,0 +1,7 @@
+# Cookies and local studio storage
+
+StorageConsentSystem renders an in-page modal on the front page and studio. Accept all, Reject optional, Customize and Save selected choices are available; Escape dismisses without granting consent. A permanent Cookies & storage button reopens settings. The strictly scoped local consent record remembers acceptance or rejection for 180 days. Optional choices default off.
+
+Preference cookie feeless_music_layout is Secure, SameSite=Lax, scoped to /Music-Platform/, with a 180-day lifetime. Layout localStorage is separately consent-gated. StudioPersistenceSystem stores one IndexedDB snapshot containing pattern-1 notes, tempo and recording Blobs in feeless-Music-Platform-v1. Local saving is disabled until opted in. Consent withdrawal stops reads/writes and removes the optional cookie; existing IndexedDB data is retained rather than silently deleting recordings. Clear site data in browser settings to remove it.
+
+The browser persistence request only occurs following explicit acceptance with that checkbox enabled; no request occurs on startup. A browser may refuse it. Browser protection is origin-wide (feeless-records.github.io), although keys/database/cookies are application-scoped. It is not a backup, encryption, synchronization, or a promise against clearing browser data. Microphone permission remains separate. Quota and blocked-storage failures are reported. Concurrent tabs use last completed snapshot; collaboration/merge is not implemented.

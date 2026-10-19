@@ -3,7 +3,7 @@ export class RecordingPanel{
  mount(root){
  const recording=this.recording;const doc=root.ownerDocument;this.root=root;root.classList.add("recording-panel");
  const heading=doc.createElement("h2");heading.textContent="Audio recording";
- const note=doc.createElement("p");note.textContent="Record microphone or audio-interface input. Start requests browser permission. Monitoring is off. Takes stay in this tab until downloaded; reloading loses unsaved takes. Export uses the browser’s supported audio format.";
+ const note=doc.createElement("p");note.textContent="Record microphone or audio-interface input. Start requests browser permission. Monitoring is off. Use Cookies & storage to enable local take saving. Without it, reloading loses takes; download important recordings as a backup. Export uses the browser’s supported audio format.";
  this.status=doc.createElement("output");this.status.setAttribute("aria-live","polite");
  const controls=doc.createElement("div");controls.className="transport-buttons";this.buttons={};
  for(const [label,action]of [["Start recording",()=>recording.start()],["Pause recording",()=>recording.pause()],["Resume recording",()=>recording.resume()],["Stop recording",()=>recording.stop()]]){

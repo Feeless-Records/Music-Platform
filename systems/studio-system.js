@@ -1,4 +1,4 @@
-import {RecordingPanel} from "./recording-panel.js?v=recording-2";
+import {RecordingPanel} from "./recording-panel.js?v=storage-1";
 import {IconSystem} from "./icon-system.js?v=industry-1";
 import {TransportPanel} from "./transport-panel.js?v=transport-2";
 import {StudioCore} from "./studio-core.js?v=industry-1";

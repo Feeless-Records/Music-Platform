@@ -1,3 +1,4 @@
+import {StorageConsentSystem} from "./storage-consent.js";
 import {createExtensionSuggestion} from "./extension-suggestion.js";
 import {BrowserApp} from "./browser-app.js?v=environment-1";
 import {platform} from "./platform-manifest.js?v=workspaces-3";
@@ -30,7 +31,7 @@ export class MusicPlatform{
  workspaces.append(card);
  }
  const footer=element("footer"),lab=element("a","Audio engine test page");lab.href="./audio-studio.html";footer.append(lab,element("span","Development platform · Features are being integrated."));
- this.root.replaceChildren(header,workspaces,createExtensionSuggestion(),footer);return this;
+ this.root.replaceChildren(header,workspaces,createExtensionSuggestion(),footer);this.consent=new StorageConsentSystem().mount();return this;
  }
 }
 new MusicPlatform().initialize();

@@ -1,4 +1,4 @@
-import {TouchSystem} from "./touch-system.js?v=recording-2";
+import {TouchSystem} from "./touch-system.js?v=storage-1";
 import {PanelSystem} from "./panel-system.js";
 // Tablet owns a split workspace and a persistent app dock.
 export class TabletSystem extends TouchSystem{
