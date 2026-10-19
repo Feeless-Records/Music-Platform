@@ -1,7 +1,8 @@
-import {RecordingPanel} from "./recording-panel.js?v=storage-1";
-import {IconSystem} from "./icon-system.js?v=industry-1";
+import {WebTechnologyPanel} from "./web-technology-panel.js";
+import {RecordingPanel} from "./recording-panel.js?v=web-tech-1";
+import {IconSystem} from "./icon-system.js?v=web-tech-1";
 import {TransportPanel} from "./transport-panel.js?v=transport-2";
-import {StudioCore} from "./studio-core.js?v=industry-1";
+import {StudioCore} from "./studio-core.js?v=web-tech-1";
 function node(tag,className,text){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;}
 export class StudioSystem{
  constructor(root,{core=new StudioCore(),layout="desktop",mode="auto",onLayoutChange=()=>{}}={}){this.root=root;this.core=core;this.layout=layout;this.mode=mode;this.onLayoutChange=onLayoutChange;if(!this.core.workflow.patterns.patterns.has("pattern-1"))this.core.workflow.patterns.create("pattern-1");for(const id of ["Kick","Snare","Hat","Bass"])if(!this.core.workflow.channelRack.channels.has(id))this.core.workflow.channelRack.add(id);}
@@ -12,7 +13,7 @@ export class StudioSystem{
  const brand=node("div","desktop-brand","F / R");const identity=node("div","desktop-identity");identity.append(node("strong","","Music Platform"),node("span","",this.layout.toUpperCase()+" WORKSPACE"));
  const back=node("a","back-link","← Front page");back.href="./index.html";const layoutLabel=node("label","layout-label","Layout ");const layoutSelect=node("select");layoutSelect.setAttribute("aria-label","Interface layout");for(const value of ["auto","mobile","tablet","desktop"]){const option=node("option","",value[0].toUpperCase()+value.slice(1));option.value=value;layoutSelect.append(option);}layoutSelect.value=this.mode;layoutSelect.addEventListener("change",()=>this.onLayoutChange(layoutSelect.value));layoutLabel.append(layoutSelect);top.append(brand,identity,layoutLabel,back);
  const toolbar=node("nav","desktop-tools");toolbar.setAttribute("aria-label","Open studio windows");
- for(const [id,label]of [["transport","Transport"],["recording","Recording"],["overview","Workspace"],["rack","Channel rack"],["arrangement","Arrangement"],["systems","Systems"]]){
+ for(const [id,label]of [["transport","Transport"],["recording","Recording"],["overview","Workspace"],["rack","Channel rack"],["arrangement","Arrangement"],["systems","Systems"],["technology","Web Technologies"]]){
  const b=node("button","launcher",label);b.type="button";this.icons.decorate(b,id);b.addEventListener("click",()=>this.launch(id));toolbar.append(b);
  }
  toolbar.append(node("span","mockup-label","STUDIO PROTOTYPE · PATTERN AUDIO ENABLED"));
@@ -32,6 +33,8 @@ export class StudioSystem{
  const panel=new TransportPanel(this.core.transportController).mount(content);onClose=()=>panel.dispose();
  }else if(id==="recording"){
  title="Recording";width=600;height=500;const panel=new RecordingPanel(this.core.recording).mount(content);onClose=()=>panel.dispose();
+ }else if(id==="technology"){
+ title="Web Technologies";width=700;height=540;const panel=new WebTechnologyPanel(this.core).mount(content);onClose=()=>panel.dispose();
  }else if(id==="overview"){
  title="Workspace";x=54;y=36;width=370;height=280;
  content.append(node("span","eyebrow",this.layout.toUpperCase()+" WORKSPACE"),node("h1","",this.layout==="desktop"?"Your studio, in windows.":this.layout==="tablet"?"Your studio, side by side.":"One tool. Full focus."),node("p","",this.layout==="desktop"?"Open tools from the bar above. Drag title bars, resize from the lower corner, or maximize a window.":this.layout!=="desktop"?"Tap Home to open studio apps. Use Back or Recent apps to switch tools. Your pattern stays with you.":"Open tools from the launcher and switch between them using the bottom tabs. Your pattern stays with you."));

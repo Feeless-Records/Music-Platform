@@ -118,3 +118,5 @@ html[data-orientation="landscape"] [data-interface="tablet"] .mobile-home-note{g
 [data-interface="tablet"] .mobile-home[hidden]{display:none!important}
 
 .recording-panel output{display:block;margin:16px 0;color:#c9e7ad}.recording-take{padding:16px;border:1px solid #526451;border-radius:16px;margin:16px 0}.recording-take audio{display:block;width:100%;margin:12px 0}.industry-domain{padding:14px 0;border-bottom:1px solid #435349}.industry-domain summary{cursor:pointer;font-size:14px}.industry-domain p{display:flex;gap:12px;justify-content:space-between;align-items:center}
+
+.technology-status{font:12px/1.7 ui-monospace,monospace;color:#c9e7ad;padding:12px;background:#132019;border-radius:12px;overflow-wrap:anywhere}.technology-title{padding:24px 0;color:#c5ef9b}.technology-title svg{width:100%;height:55px;display:block}.technology-waveform{height:180px;position:relative;background:#121c16;border:1px solid #45613d;border-radius:12px;overflow:hidden;margin-bottom:18px}.technology-waveform canvas,.technology-waveform svg{width:100%;height:100%;display:block;color:#bcef8c}.technology-waveform [hidden]{display:none!important}

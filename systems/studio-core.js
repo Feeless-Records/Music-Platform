@@ -1,3 +1,4 @@
+import {WebAssemblySystem} from "./webassembly-system.js";
 import {AudioRecordingSystem} from "./audio-recording.js";
 import {IndustrySystem} from "./industry-system.js";
 import {TransportController} from "./transport-controller.js?v=transport-3";
@@ -20,7 +21,7 @@ export class StudioCore {
     this.parameters=new ParametricSystem().define("cutoff",{value:1000,min:20,max:20000});
     this.frequency=FrequencySystem;this.velocity=VelocitySystem;
     this.workflow=new WorkflowSystem(this.timeline);
-    this.recording=new AudioRecordingSystem();this.industry=new IndustrySystem();this.sound=null;this.sampling=null;this.transportController=new TransportController(this);
+    this.webAssembly=new WebAssemblySystem();this.recording=new AudioRecordingSystem();this.industry=new IndustrySystem();this.sound=null;this.sampling=null;this.transportController=new TransportController(this);
   }
   loadPattern(id){this.sequencer.notes=this.workflow.compilePattern(id);return this.sequencer.notes.length;}
   connectAudio(context){if(this.transportController.engine.context&&this.transportController.engine.context!==context)throw new Error("Studio already uses another audio context");this.transportController.engine.context=context;const output=this.transportController.engine.input;this.sound?.stopAll();this.sampling?.stopAll();this.sound=new SoundSystem(context,output);this.sampling=new SamplingSystem(context,output);this.transportController.sound=this.sound;this.samplingRegistration?.();this.samplingRegistration=this.transportController.engine.register({stop:()=>this.sampling.stopAll()});return this;}

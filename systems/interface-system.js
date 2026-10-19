@@ -1,7 +1,7 @@
-import {MobileSystem} from "./mobile-system.js?v=storage-1";
-import {TabletSystem} from "./tablet-system.js?v=storage-1";
-import {DesktopSystem} from "./desktop-system.js?v=storage-1";
-import {StudioCore} from "./studio-core.js?v=storage-1";
+import {MobileSystem} from "./mobile-system.js?v=web-tech-1";
+import {TabletSystem} from "./tablet-system.js?v=web-tech-1";
+import {DesktopSystem} from "./desktop-system.js?v=web-tech-1";
+import {StudioCore} from "./studio-core.js?v=web-tech-1";
 import {selectProfile} from "../browser-app.js?v=environment-1";
 import {observeViewport} from "../browser-viewport.js";
 export function selectInterface(viewport,mode="auto"){
@@ -10,7 +10,7 @@ export function selectInterface(viewport,mode="auto"){
 }
 export class InterfaceSystem{
  constructor(root,{win=window,core=new StudioCore()}={}){this.root=root;this.win=win;this.core=core;this.mode="auto";this.current=null;this.viewport=null;}
- start(){if(this.unobserve)return;this.unobserve=observeViewport(this.win,viewport=>{this.viewport=viewport;this.reconcile();});const tool=new URLSearchParams(this.win.location?.search??"").get("tool");if(["transport","recording","rack","arrangement","systems","overview"].includes(tool))this.current?.launch(tool);}
+ start(){if(this.unobserve)return;this.unobserve=observeViewport(this.win,viewport=>{this.viewport=viewport;this.reconcile();});const tool=new URLSearchParams(this.win.location?.search??"").get("tool");if(["transport","recording","rack","arrangement","systems","overview","technology"].includes(tool))this.current?.launch(tool);}
  setMode(mode){selectInterface(this.viewport,mode);this.mode=mode;this.reconcile(true);}
  reconcile(force=false){
  const type=selectInterface(this.viewport,this.mode);if(!force&&this.current?.layout===type){this.current.windows.reflow();return;}
