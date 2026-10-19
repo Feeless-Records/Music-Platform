@@ -26,7 +26,7 @@ Run checks with `node --test tests/*.test.mjs`.
 ## Repository direction
 Use this repository for future integrated platform work and finalization.
 Feeless-Records/Audio-Studio remains the historical prototype reference.
-Repository access remains private. No Pages publication is configured by this migration.
+The repository is public. GitHub Pages publishes main/root at https://feeless-records.github.io/Music-Platform/.
 
 ## Next integration areas
 1. Shared project/workspace persistence and undo/redo.
