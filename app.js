@@ -1,4 +1,4 @@
-import {BrowserApp} from "./browser-app.js";
+import {BrowserApp} from "./browser-app.js?v=environment-1";
 import {AnimationSystem} from "./systems/animation.js";
 import {LayoutSystem} from "./systems/layout.js";
 import {ThemeSystem} from "./systems/theme.js";

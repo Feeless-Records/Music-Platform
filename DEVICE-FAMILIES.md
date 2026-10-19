@@ -9,3 +9,5 @@ Each device has app, page, portrait, landscape and storage modules. Storage shar
 browser-storage.js, browser-cookies.js and browser-cache.js are opt-in utilities; startup writes no cookies, caches or preferences.
 Storage handles unavailable/quota-blocked backends. No service worker or offline interception is installed.
 All relative imports preserve deployment under /Audio-Studio/. Future business apps can reuse the modules without branding.
+
+See BROWSER-ENVIRONMENT.md for independent device detection, viewport/orientation measurement, browser identity and browser capabilities. Legacy layout families are retained as responsive profiles, not hardware guarantees.

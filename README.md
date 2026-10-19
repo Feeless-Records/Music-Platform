@@ -44,3 +44,5 @@ No complete DAW, DJ suite or audio editor is claimed at this stage.
 Radio covers programme and broadcast operations. Music covers library organization and listening; editing, DJ performance and production remain in their dedicated workspaces. These workspace capabilities are planned and are not yet implemented.
 
 Event Organization is the shared workspace for festivals, parties, gigs, concerts, club nights and other live events. These event types share planning, booking, production and promotion foundations; they are not separate workspaces. Record Label covers label operations across artists and releases.
+
+Browser/device/viewport architecture and browser properties are documented in BROWSER-ENVIRONMENT.md.

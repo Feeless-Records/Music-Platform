@@ -1,9 +1,13 @@
+import {BrowserApp} from "./browser-app.js?v=environment-1";
 import {platform} from "./platform-manifest.js?v=workspaces-3";
 function element(tag,text,className){const item=document.createElement(tag);if(text)item.textContent=text;if(className)item.className=className;return item;}
 export class MusicPlatform{
- constructor(root=document.getElementById("app")){this.root=root;}
+ constructor(root=document.getElementById("app")){this.root=root;this.browser=new BrowserApp();}
  initialize(){
  if(!this.root)throw new Error("Music Platform root element not found.");
+ this.browser.start();
+ window.addEventListener("pagehide",()=>this.browser.stop());
+ window.addEventListener("pageshow",event=>{if(event.persisted)this.browser.start();});
  document.title=platform.name;
  const style=element("style");style.textContent=`
  :root{color-scheme:dark;font-family:system-ui,sans-serif;color:#e8ece8;background:#111715}*{box-sizing:border-box}body{margin:0}
