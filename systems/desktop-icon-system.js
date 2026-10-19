@@ -1,4 +1,4 @@
-import {IconSystem,ICONS} from "./icon-system.js?v=media-2";
+import {IconSystem,ICONS} from "./icon-system.js?v=plugins-1";
 // Desktop-only shortcut surface; window state remains owned by WindowSystem.
 export class DesktopIconSystem extends IconSystem{
  mount(workspace,launch){this.element=this.doc.createElement("nav");this.element.className="desktop-icons";this.element.setAttribute("aria-label","Desktop shortcuts");

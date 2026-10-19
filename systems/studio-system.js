@@ -1,9 +1,10 @@
-import {MediaToolsPanel} from "./media-tools-panel.js?v=media-2";
+import {PluginPanel} from "./plugin-panel.js";
+import {MediaToolsPanel} from "./media-tools-panel.js?v=plugins-1";
 import {WebTechnologyPanel} from "./web-technology-panel.js";
-import {RecordingPanel} from "./recording-panel.js?v=media-2";
-import {IconSystem} from "./icon-system.js?v=media-2";
+import {RecordingPanel} from "./recording-panel.js?v=plugins-1";
+import {IconSystem} from "./icon-system.js?v=plugins-1";
 import {TransportPanel} from "./transport-panel.js?v=transport-2";
-import {StudioCore} from "./studio-core.js?v=media-2";
+import {StudioCore} from "./studio-core.js?v=plugins-1";
 function node(tag,className,text){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;}
 export class StudioSystem{
  constructor(root,{core=new StudioCore(),layout="desktop",mode="auto",onLayoutChange=()=>{}}={}){this.root=root;this.core=core;this.layout=layout;this.mode=mode;this.onLayoutChange=onLayoutChange;if(!this.core.workflow.patterns.patterns.has("pattern-1"))this.core.workflow.patterns.create("pattern-1");for(const id of ["Kick","Snare","Hat","Bass"])if(!this.core.workflow.channelRack.channels.has(id))this.core.workflow.channelRack.add(id);}
@@ -14,7 +15,7 @@ export class StudioSystem{
  const brand=node("div","desktop-brand","F / R");const identity=node("div","desktop-identity");identity.append(node("strong","","Music Platform"),node("span","",this.layout.toUpperCase()+" WORKSPACE"));
  const back=node("a","back-link","← Front page");back.href="./index.html";const layoutLabel=node("label","layout-label","Layout ");const layoutSelect=node("select");layoutSelect.setAttribute("aria-label","Interface layout");for(const value of ["auto","mobile","tablet","desktop"]){const option=node("option","",value[0].toUpperCase()+value.slice(1));option.value=value;layoutSelect.append(option);}layoutSelect.value=this.mode;layoutSelect.addEventListener("change",()=>this.onLayoutChange(layoutSelect.value));layoutLabel.append(layoutSelect);top.append(brand,identity,layoutLabel,back);
  const toolbar=node("nav","desktop-tools");toolbar.setAttribute("aria-label","Open studio windows");
- for(const [id,label]of [["transport","Transport"],["recording","Recording"],["overview","Workspace"],["rack","Channel rack"],["arrangement","Arrangement"],["systems","Systems"],["technology","Web Technologies"],["media","Import / Export"]]){
+ for(const [id,label]of [["transport","Transport"],["recording","Recording"],["overview","Workspace"],["rack","Channel rack"],["arrangement","Arrangement"],["systems","Systems"],["technology","Web Technologies"],["media","Import / Export"],["plugins","Instruments & Effects"]]){
  const b=node("button","launcher",label);b.type="button";this.icons.decorate(b,id);b.addEventListener("click",()=>this.launch(id));toolbar.append(b);
  }
  toolbar.append(node("span","mockup-label","STUDIO PROTOTYPE · PATTERN AUDIO ENABLED"));
@@ -38,13 +39,15 @@ export class StudioSystem{
  title="Web Technologies";width=700;height=540;const panel=new WebTechnologyPanel(this.core).mount(content);onClose=()=>panel.dispose();
  }else if(id==="media"){
  title="Import / Export";width=720;height=620;const panel=new MediaToolsPanel(this.core).mount(content);onClose=()=>panel.dispose();
+ }else if(id==="plugins"){
+ title="Instruments & Effects";width=720;height=640;const panel=new PluginPanel(this.core).mount(content);onClose=()=>panel.dispose();
  }else if(id==="overview"){
  title="Workspace";x=54;y=36;width=370;height=280;
  content.append(node("span","eyebrow",this.layout.toUpperCase()+" WORKSPACE"),node("h1","",this.layout==="desktop"?"Your studio, in windows.":this.layout==="tablet"?"Your studio, side by side.":"One tool. Full focus."),node("p","",this.layout==="desktop"?"Open tools from the bar above. Drag title bars, resize from the lower corner, or maximize a window.":this.layout!=="desktop"?"Tap Home to open studio apps. Use Back or Recent apps to switch tools. Your pattern stays with you.":"Open tools from the launcher and switch between them using the bottom tabs. Your pattern stays with you."));
  const list=node("ul","");for(const text of (this.layout==="desktop"?["Minimize to the taskbar; click to restore.","Close and reopen tools without resetting the pattern.","Keyboard: focus a title bar or resize handle and use arrow keys."]:["Close and reopen tools without resetting the pattern.",this.layout==="tablet"?"Two tools stay visible together.":"The selected tool fills the workspace.","Use Layout to try another interface."]))list.append(node("li","",text));content.append(list);
  }else if(id==="rack"){
  title="Channel rack";x=450;y=70;width=570;height=320;
- content.append(node("span","eyebrow","PATTERN 01 / 16 STEPS"),node("h2","","Build a rhythm"),node("p","","Toggle steps, then open Transport and press Play. Pattern voices currently use a saw oscillator."));
+ content.append(node("span","eyebrow","PATTERN 01 / 16 STEPS"),node("h2","","Build a rhythm"),node("p","","Toggle steps, then open Transport and press Play. Choose channel voices in Instruments & Effects."));
  const rack=node("div","step-rack");
  for(const [row,channel]of ["Kick","Snare","Hat","Bass"].entries()){
  const line=node("div","step-row");line.append(node("span","channel-name",channel));

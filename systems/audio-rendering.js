@@ -16,13 +16,13 @@ export function encodeWav(buffer){
 }
 export class AudioRenderingSystem{
  constructor({offlineFactory=null}={}){this.offlineFactory=offlineFactory;}
- async render({notes,bpm=120,startBeat=0,endBeat=4,sampleRate=44100,channels=2,settings={gain:.7,cutoff:20000}}){
+ async render({notes,bpm=120,startBeat=0,endBeat=4,sampleRate=44100,channels=2,instrumentSystem=null,instrumentSnapshot=null,effectsSystem=null,effectsSnapshot=[],settings={gain:.7,cutoff:20000}}){
  const snapshot=validateNotes(notes);number(bpm,20,300);number(startBeat);number(endBeat,startBeat+Number.EPSILON);integer(sampleRate,8000,96000);integer(channels,1,2);
- const seconds=(endBeat-startBeat)*60/bpm+.25;if(seconds>120)throw new RangeError("Render is limited to 120 seconds per export");
+ const seconds=(endBeat-startBeat)*60/bpm+.25+(effectsSystem?.tail(effectsSnapshot)??0);if(seconds>120)throw new RangeError("Render is limited to 120 seconds per export");
  const Factory=this.offlineFactory||globalThis.OfflineAudioContext||globalThis.webkitOfflineAudioContext;if(!Factory)throw new Error("Offline audio rendering is unavailable");
- const context=new Factory(channels,Math.ceil(seconds*sampleRate),sampleRate),processing=new AudioProcessingSystem(context,settings),sound=new SoundSystem(context,processing.input);
+ const context=new Factory(channels,Math.ceil(seconds*sampleRate),sampleRate),processing=new AudioProcessingSystem(context,settings),effects=effectsSystem?.createGraph(context,processing.input,effectsSnapshot),sound=instrumentSystem?instrumentSystem.createPlayer(context,effects?.input??processing.input,instrumentSnapshot):new SoundSystem(context,effects?.input??processing.input);
  for(const note of snapshot){const begin=Math.max(note.beat,startBeat),finish=Math.min(note.beat+note.duration,endBeat);if(finish>begin)sound.note({...note,at:(begin-startBeat)*60/bpm,duration:(finish-begin)*60/bpm});}
- try{return await context.startRendering();}finally{processing.dispose();}
+ try{return await context.startRendering();}finally{sound.dispose?.();effects?.dispose();processing.dispose();}
  }
  toWav(buffer){return encodeWav(buffer);}
 }

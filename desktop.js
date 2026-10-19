@@ -1,7 +1,7 @@
 import {StorageConsentSystem} from "./storage-consent.js";
-import {bindStudioStorage} from "./studio-persistence.js?v=media-2";
+import {bindStudioStorage} from "./studio-persistence.js?v=plugins-1";
 import {BrowserApp} from "./browser-app.js?v=environment-1";
-import {InterfaceSystem} from "./systems/interface-system.js?v=media-2";
+import {InterfaceSystem} from "./systems/interface-system.js?v=plugins-1";
 const browser=new BrowserApp();
 const interfaces=new InterfaceSystem(document.querySelector("#desktop"));
 const consent=new StorageConsentSystem();const storedMode=consent.getLayout();if(["auto","mobile","tablet","desktop"].includes(storedMode))interfaces.mode=storedMode;

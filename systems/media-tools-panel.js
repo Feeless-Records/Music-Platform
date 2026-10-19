@@ -2,7 +2,7 @@ export class MediaToolsPanel{
  constructor(core){this.core=core;this.urls=[];this.disposed=false;this.job=null;}
  mount(root){
  const doc=root.ownerDocument;this.root=root;const make=(tag,text)=>{const el=doc.createElement(tag);if(text)el.textContent=text;return el;};
- root.classList.add("media-tools-panel");root.append(make("h2","Import, export & audio encoding"),make("p","Audio files: up to 25 MiB and 120 seconds; decoding depends on your browser. Project JSON contains the current 4-beat pattern, tempo and project name. Audio files, recordings and other workspace data are not embedded in JSON."));
+ root.classList.add("media-tools-panel");root.append(make("h2","Import, export & audio encoding"),make("p","Audio files: up to 25 MiB and 120 seconds; decoding depends on your browser. Project JSON contains the current 4-beat pattern, tempo, project name and instrument/effect settings. Audio files, recordings and other workspace data are not embedded in JSON."));
  this.status=make("output","Ready");this.status.setAttribute("role","status");
  const fieldset=make("fieldset"),legend=make("legend","Import");fieldset.append(legend);
  const label=make("label","Choose audio or project JSON "),file=make("input");file.type="file";file.accept="audio/*,.wav,.mp3,.flac,.ogg,.webm,.m4a,.aac,.json";label.append(file);fieldset.append(label);this.file=file;

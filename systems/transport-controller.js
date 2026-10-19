@@ -1,5 +1,5 @@
-import {AudioEngineSystem} from "./audio-engine.js";
-import {AudioRenderingSystem,validateNotes} from "./audio-rendering.js?v=transport-3";
+import {AudioEngineSystem} from "./audio-engine.js?v=plugins-1";
+import {AudioRenderingSystem,validateNotes} from "./audio-rendering.js?v=plugins-1";
 import {SoundSystem} from "./sound.js?v=transport-3";
 import {number} from "./workflow-validation.js";
 export class TransportController{
@@ -15,7 +15,7 @@ export class TransportController{
  validateNotes(this.core.sequencer.notes);this.state="starting";this.error=null;const token=++this.generation;this.emit();
  try{
  await this.engine.resume();if(token!==this.generation)return;
- this.sound??=new SoundSystem(this.engine.context,this.engine.input);
+ this.sound??=this.core.instruments?this.core.instruments.createPlayer(this.engine.context,this.engine.input):new SoundSystem(this.engine.context,this.engine.input);
  if(!this.loop&&this.clock.beat>=this.length)this.clock.seek(0,this.engine.context.currentTime);
  this.clock.play(this.engine.context.currentTime);this.state="playing";this.scheduledUntil=this.clock.position(this.engine.context.currentTime);this.includeHeld=true;
  this.pump();this.timer=this.setTimer(()=>{try{this.pump();}catch(error){this.pause();this.error=error.message;this.emit();}},25);
@@ -51,7 +51,7 @@ export class TransportController{
  configure({length=this.length,loop=this.loop}={}){number(length,.25,256);if(typeof loop!=="boolean")throw new TypeError("Loop must be boolean");this.stop();this.length=length;this.loop=loop;this.emit();}
  async render(options={}){
  if(this.rendering)throw new Error("Rendering already in progress");this.rendering=true;this.emit();
- try{return await this.renderer.render({...options,notes:this.core.sequencer.notes.map(n=>({...n})),bpm:this.core.timeline.bpm,startBeat:options.startBeat??0,endBeat:options.endBeat??this.length,settings:{...this.engine.settings,gain:this.engine.settings.gain*(this.engine.master?this.engine.master.value/100:1)}});}
+ try{return await this.renderer.render({...options,notes:this.core.sequencer.notes.map(n=>({...n})),bpm:this.core.timeline.bpm,startBeat:options.startBeat??0,endBeat:options.endBeat??this.length,instrumentSystem:this.core.instruments,instrumentSnapshot:this.core.instruments?.snapshot(),effectsSystem:this.core.effects,effectsSnapshot:this.core.effects?.snapshot(),settings:{...this.engine.settings,gain:this.engine.settings.gain*(this.engine.master?this.engine.master.value/100:1)}});}
  finally{this.rendering=false;this.emit();}
  }
  dispose(){this.stop();this.listeners.clear();return this.engine.dispose();}
