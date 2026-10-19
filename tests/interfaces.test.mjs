@@ -20,7 +20,7 @@ test("three interface systems reuse one project and preserve notes",()=>{
  const tablet=new TabletSystem({}, {core}),desktop=new DesktopSystem({}, {core});
  assert.equal(mobile.core,tablet.core);assert.equal(tablet.core,desktop.core);
  assert.equal(core.workflow.patterns.get("pattern-1").notes.length,1);assert.equal(core.sequencer.notes.length,1);
- assert.deepEqual(mobile.initialPanels(),["rack"]);assert.deepEqual(tablet.initialPanels(),["rack","transport"]);
+ assert.deepEqual(mobile.initialPanels(),[]);assert.deepEqual(tablet.initialPanels(),["rack","transport"]);
 });
 function element(){
  const classes=new Set();return {children:[],attributes:{},hidden:false,clientWidth:800,clientHeight:600,
@@ -40,4 +40,12 @@ test("mobile shows one tool and tablet shows two; close releases panel resources
  manager.destroy();assert.equal(closed,3);assert.equal(manager.windows.size,0);
  }
  }finally{globalThis.document=previous;}
+});
+
+test("mobile Back skips closed tools and returns home without changing audio",()=>{
+ const screens=[],restored=[];
+ const mobile={root:{dataset:{mobileScreen:"app"}},history:["rack","closed"],windows:{windows:new Map([["rack",{}]]),restore:id=>restored.push(id)},showScreen:screen=>screens.push(screen)};
+ MobileSystem.prototype.back.call(mobile);assert.deepEqual(restored,["rack"]);assert.deepEqual(screens,["app"]);
+ MobileSystem.prototype.back.call(mobile);assert.equal(screens.at(-1),"home");
+ mobile.root.dataset.mobileScreen="recents";MobileSystem.prototype.back.call(mobile);assert.equal(screens.at(-1),"home");
 });

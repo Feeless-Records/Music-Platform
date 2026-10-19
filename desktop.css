@@ -54,3 +54,42 @@ html[data-orientation="portrait"] .desktop-shell[data-interface="tablet"] .pane-
 [data-interface="mobile"] .launcher{flex-direction:column;gap:4px;min-width:78px;min-height:60px}
 [data-interface="mobile"] .task-button{flex-direction:column;gap:3px;min-height:48px}
 [data-interface="mobile"] .task-button .studio-icon{width:18px;height:18px}
+
+/* Android-inspired mobile shell: home, app surface, recents, navigation. */
+.desktop-shell[data-interface="mobile"]{position:relative;grid-template-rows:64px minmax(0,1fr) calc(64px + env(safe-area-inset-bottom,0px));background:#111b19}
+[data-interface="mobile"] .desktop-tools{display:none!important}
+[data-interface="mobile"] .desktop-top{grid-row:1;border:0;background:#17231f;padding-top:env(safe-area-inset-top,0px)}
+[data-interface="mobile"] .desktop-identity span{display:none}
+[data-interface="mobile"] .desktop-identity strong{font-size:17px}
+[data-interface="mobile"] .back-link{font-size:10px}
+[data-interface="mobile"] .desktop-workspace{grid-row:2;background:radial-gradient(ellipse at 0% 80%,#38624e99,transparent 65%),radial-gradient(ellipse at 100% 0%,#475d3d88,transparent 70%),#14221e}
+[data-interface="mobile"] .desktop-watermark{display:none}
+[data-interface="mobile"] .platform-pane{background:#15201c}
+[data-interface="mobile"] .pane-title{background:#25372e;border:0;min-height:54px}
+[data-interface="mobile"] .panel-content{padding:22px 18px}
+[data-interface="mobile"] .transport-buttons button{border-radius:22px;min-height:48px}
+.mobile-home{height:100%;min-height:0;overflow:auto;padding:clamp(20px,5vw,40px);display:flex;flex-direction:column}
+.mobile-home[hidden]{display:none}
+.mobile-home-hero{text-align:center;padding:clamp(20px,6vh,64px) 0 30px}
+.mobile-clock{font-size:clamp(56px,14vw,88px);font-weight:300;letter-spacing:-.06em;color:#def4c9}
+.mobile-home-hero p{font-size:14px;color:#c0d0c2;margin:8px 0 28px}
+.mobile-home-hero h1{font-size:22px;color:#e0ebde;font-weight:400}
+.mobile-app-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px 14px;max-width:480px;width:100%;margin:auto auto 28px}
+.mobile-app-icon{display:flex;flex-direction:column;align-items:center;gap:10px;background:transparent;border:0;font-size:12px;min-height:96px;padding:4px}
+.mobile-app-icon:hover{background:#ffffff09;border-radius:24px}
+.mobile-app-icon .studio-icon{width:60px;height:60px;padding:16px;border-radius:20px;background:#c9e7ad;color:#203b23;box-shadow:0 6px 18px #0002}
+.mobile-app-icon[data-app="rack"] .studio-icon{background:#b7ddcf;color:#193e35}
+.mobile-app-icon[data-app="arrangement"] .studio-icon{background:#d7ccea;color:#44375c}
+.mobile-app-icon[data-app="systems"] .studio-icon{background:#e8d9b8;color:#514429}
+.mobile-home-note{text-align:center;font-size:9px;letter-spacing:.15em;color:#a2b5a7}
+.mobile-navigation{grid-row:3;display:flex;align-items:center;justify-content:space-evenly;background:#17231f;padding:4px 12px max(4px,env(safe-area-inset-bottom,0px));z-index:10}
+.mobile-navigation button{display:flex;flex-direction:column;align-items:center;gap:0;min-width:72px;min-height:52px;border:0;border-radius:24px;background:transparent}
+.mobile-navigation button:hover{background:#ffffff12}.mobile-navigation span{font-size:28px;line-height:32px}.mobile-navigation small{font-size:9px;color:#bbcec0}
+[data-interface="mobile"] .desktop-taskbar{display:none}
+[data-interface="mobile"][data-mobile-screen="home"] .platform-pane,[data-interface="mobile"][data-mobile-screen="recents"] .platform-pane{display:none}
+[data-interface="mobile"][data-mobile-screen="recents"] .desktop-taskbar{display:flex;position:absolute;top:64px;bottom:calc(64px + env(safe-area-inset-bottom,0px));left:0;right:0;z-index:5;background:#14221e;padding:24px;align-items:stretch;border:0}
+[data-interface="mobile"][data-mobile-screen="recents"] .task-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-content:start}
+[data-interface="mobile"][data-mobile-screen="recents"] .task-button{border-radius:24px;min-height:150px;background:#26392f;border:1px solid #56745b;white-space:normal;font-size:14px}
+[data-interface="mobile"][data-mobile-screen="recents"] .task-button .studio-icon{width:36px;height:36px;margin-bottom:14px;color:#c9e7ad}
+.mobile-recents-empty{position:absolute;inset:35% 24px auto;text-align:center;font-size:15px}
+@media(orientation:landscape) and (max-height:600px){.mobile-home{display:grid;grid-template-columns:1fr 1fr;gap:20px}.mobile-home-hero{padding:0}.mobile-home-note{grid-column:1/-1}.mobile-app-grid{gap:8px;margin:0 auto}.mobile-clock{font-size:48px}.mobile-home-hero p{margin-bottom:12px}}

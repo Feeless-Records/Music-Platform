@@ -42,3 +42,6 @@ These are browser interface systems, not native operating systems.
 ## Icon systems
 IconSystem provides a shared local SVG registry for all interface launchers and tool tabs. Every icon retains a visible text label and is decorative to assistive technology.
 DesktopIconSystem is a separate desktop-only shortcut surface built on that vocabulary. Single click, Enter, or Space opens or restores the corresponding WindowSystem window. It does not own windows or project state. Mobile and tablet use their existing tool launchers and tabs, without desktop shortcuts.
+
+## Android-inspired mobile shell
+Mobile opens on a home screen with a local clock and labelled studio app icons. Back follows the previously opened tools, Home returns to the launcher, and Recent apps lists open tools. Navigation changes presentation without stopping audio or replacing project state. This is a browser interface, not an Android emulator; system permissions and notifications remain browser-managed.
