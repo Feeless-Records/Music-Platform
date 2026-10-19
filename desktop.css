@@ -42,3 +42,15 @@ html[data-orientation="portrait"] .desktop-shell[data-interface="tablet"] .pane-
 .desktop-shell[data-interface="tablet"] .step-rack{min-width:650px}.desktop-shell[data-interface="tablet"] .step{min-height:40px}
 .desktop-shell[data-interface="tablet"] .launcher,.desktop-shell[data-interface="tablet"] .task-button{min-height:44px}
 .pane-title button{width:44px;min-height:44px}
+
+/* Shared icons retain visible names; desktop shortcuts form their own surface. */
+.studio-icon{width:20px;height:20px;flex:0 0 auto;vertical-align:middle}
+.launcher,.task-button{display:inline-flex;align-items:center;justify-content:center;gap:8px}
+.desktop-icons{position:absolute;inset:16px auto 16px 12px;display:flex;flex-direction:column;gap:8px;align-items:flex-start;overflow:auto;max-width:110px}
+.desktop-shortcut{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;width:100px;min-height:76px;padding:8px;border:1px solid transparent;border-radius:8px;background:transparent;color:inherit;cursor:pointer;text-align:center}
+.desktop-shortcut .studio-icon{width:30px;height:30px;color:var(--accent,#b8f36e)}
+.desktop-shortcut:hover,.desktop-shortcut:focus-visible{background:#ffffff14;border-color:#b8f36e}
+.desktop-shortcut:focus-visible{outline:2px solid #b8f36e;outline-offset:2px}
+[data-interface="mobile"] .launcher{flex-direction:column;gap:4px;min-width:78px;min-height:60px}
+[data-interface="mobile"] .task-button{flex-direction:column;gap:3px;min-height:48px}
+[data-interface="mobile"] .task-button .studio-icon{width:18px;height:18px}

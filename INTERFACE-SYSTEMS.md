@@ -37,3 +37,8 @@ No Microsoft Windows operating-system dependency is introduced.
 The shared shell currently hosts the DAW prototype's tools.
 Other platform workspaces remain at their documented implementation status.
 These are browser interface systems, not native operating systems.
+
+
+## Icon systems
+IconSystem provides a shared local SVG registry for all interface launchers and tool tabs. Every icon retains a visible text label and is decorative to assistive technology.
+DesktopIconSystem is a separate desktop-only shortcut surface built on that vocabulary. Single click, Enter, or Space opens or restores the corresponding WindowSystem window. It does not own windows or project state. Mobile and tablet use their existing tool launchers and tabs, without desktop shortcuts.

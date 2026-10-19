@@ -1,3 +1,4 @@
+import {IconSystem} from "./icon-system.js";
 import {TransportPanel} from "./transport-panel.js?v=transport-2";
 import {StudioCore} from "./studio-core.js?v=transport-3";
 function node(tag,className,text){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;}
@@ -5,19 +6,19 @@ export class StudioSystem{
  constructor(root,{core=new StudioCore(),layout="desktop",mode="auto",onLayoutChange=()=>{}}={}){this.root=root;this.core=core;this.layout=layout;this.mode=mode;this.onLayoutChange=onLayoutChange;if(!this.core.workflow.patterns.patterns.has("pattern-1"))this.core.workflow.patterns.create("pattern-1");for(const id of ["Kick","Snare","Hat","Bass"])if(!this.core.workflow.channelRack.channels.has(id))this.core.workflow.channelRack.add(id);}
  initialPanels(){return ["arrangement","rack","overview"];}
  start(panels=this.initialPanels()){
- this.root.className="desktop-shell";this.root.dataset.interface=this.layout;
+ this.icons=new IconSystem();this.root.className="desktop-shell";this.root.dataset.interface=this.layout;
  const top=node("header","desktop-top");
  const brand=node("div","desktop-brand","F / R");const identity=node("div","desktop-identity");identity.append(node("strong","","Music Platform"),node("span","",this.layout.toUpperCase()+" WORKSPACE"));
  const back=node("a","back-link","← Front page");back.href="./index.html";const layoutLabel=node("label","layout-label","Layout ");const layoutSelect=node("select");layoutSelect.setAttribute("aria-label","Interface layout");for(const value of ["auto","mobile","tablet","desktop"]){const option=node("option","",value[0].toUpperCase()+value.slice(1));option.value=value;layoutSelect.append(option);}layoutSelect.value=this.mode;layoutSelect.addEventListener("change",()=>this.onLayoutChange(layoutSelect.value));layoutLabel.append(layoutSelect);top.append(brand,identity,layoutLabel,back);
  const toolbar=node("nav","desktop-tools");toolbar.setAttribute("aria-label","Open studio windows");
  for(const [id,label]of [["transport","Transport"],["overview","Workspace"],["rack","Channel rack"],["arrangement","Arrangement"],["systems","Systems"]]){
- const b=node("button","launcher",label);b.type="button";b.addEventListener("click",()=>this.launch(id));toolbar.append(b);
+ const b=node("button","launcher",label);b.type="button";this.icons.decorate(b,id);b.addEventListener("click",()=>this.launch(id));toolbar.append(b);
  }
  toolbar.append(node("span","mockup-label","STUDIO PROTOTYPE · PATTERN AUDIO ENABLED"));
  const workspace=node("main","desktop-workspace");workspace.setAttribute("aria-label","Studio desktop");
  const watermark=node("div","desktop-watermark");watermark.append(node("span","","FEELESS RECORDS"),node("strong","","Make room for sound."));workspace.append(watermark);
  const footer=node("footer","desktop-taskbar");const label=node("span","taskbar-label",this.layout==="desktop"?"WINDOWS":"TOOLS");const tasks=node("div","task-list");tasks.setAttribute("aria-label","Open windows");footer.append(label,tasks,node("span","lab-status","Test environment"));
- this.root.replaceChildren(top,toolbar,workspace,footer);this.windows=this.createManager(workspace,tasks);
+ this.root.replaceChildren(top,toolbar,workspace,footer);this.windows=this.createManager(workspace,tasks);this.mountIcons?.(workspace);
  for(const id of panels)this.launch(id);
  this.onResize=()=>this.windows.reflow();this.observer=typeof ResizeObserver==="undefined"?null:new ResizeObserver(this.onResize);this.observer?.observe(workspace);
  this.core.loadPattern("pattern-1");
@@ -59,8 +60,9 @@ export class StudioSystem{
  const list=node("ul","system-list");for(const name of Object.keys(this.core.workflow))list.append(node("li","",name));content.append(list);
  }
  const state=this.windows.open({id,title,content,x,y,width,height,onClose});
+ this.icons.decorate(state.task,id);
  if(this.layout==="desktop"&&this.windows.area().width<760)this.windows.maximize(id);
  return state;
  }
- stop({stopAudio=true}={}){if(stopAudio)this.core.transportController.stop();this.observer?.disconnect();this.windows.destroy();}
+ stop({stopAudio=true}={}){if(stopAudio)this.core.transportController.stop();this.observer?.disconnect();this.desktopIcons?.destroy();this.windows.destroy();}
 }
