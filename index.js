@@ -1,4 +1,4 @@
-import {platform} from "./platform-manifest.js?v=workspaces-2";
+import {platform} from "./platform-manifest.js?v=workspaces-3";
 function element(tag,text,className){const item=document.createElement(tag);if(text)item.textContent=text;if(className)item.className=className;return item;}
 export class MusicPlatform{
  constructor(root=document.getElementById("app")){this.root=root;}

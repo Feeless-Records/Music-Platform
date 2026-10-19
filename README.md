@@ -10,6 +10,9 @@ Main development repository for the integrated Feeless Records music software pl
 | Radio Workspace | Programme playlists, scheduling, live/recorded shows and stream management | Planned |
 | Music Workspace | Music library, tracks/artists/releases, playlists, listening queue, metadata and search | Planned |
 
+| Record Label Workspace | Artist/catalogue management, releases/distribution, rights/credits/royalties and promotion | Planned |
+| Event Organization Workspace | Festivals, parties, gigs, concerts, club nights; lineups, venues/stages/crew, schedules, ticketing and budgets | Planned |
+
 ## Entry points
 - index.html loads index.js, which builds the platform entry page.
 - platform-manifest.js declares the product name and workspace scope.
@@ -40,3 +43,5 @@ The repository is public. GitHub Pages publishes main/root at https://feeless-re
 No complete DAW, DJ suite or audio editor is claimed at this stage.
 
 Radio covers programme and broadcast operations. Music covers library organization and listening; editing, DJ performance and production remain in their dedicated workspaces. These workspace capabilities are planned and are not yet implemented.
+
+Event Organization is the shared workspace for festivals, parties, gigs, concerts, club nights and other live events. These event types share planning, booking, production and promotion foundations; they are not separate workspaces. Record Label covers label operations across artists and releases.
