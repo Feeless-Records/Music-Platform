@@ -1,5 +1,6 @@
 // Shared, local SVG vocabulary. Icons supplement visible labels.
 export const ICONS=Object.freeze({
+ recording:{label:"Recording",path:"M9 5a3 3 0 0 1 6 0v7a3 3 0 0 1-6 0Z M6 10v2a6 6 0 0 0 12 0v-2 M12 18v4 M8 22h8"},
  transport:{label:"Transport",path:"M8 5 19 12 8 19Z"},
  overview:{label:"Workspace",path:"M3 3h18v18H3Z M3 8h18 M8 8v13"},
  rack:{label:"Channel rack",path:"M3 5h3v3H3Z M10 5h3v3h-3Z M17 5h3v3h-3Z M3 11h3v3H3Z M10 11h3v3h-3Z M17 11h3v3h-3Z M3 17h3v3H3Z M10 17h3v3h-3Z M17 17h3v3h-3Z"},

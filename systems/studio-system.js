@@ -1,6 +1,7 @@
-import {IconSystem} from "./icon-system.js";
+import {RecordingPanel} from "./recording-panel.js";
+import {IconSystem} from "./icon-system.js?v=industry-1";
 import {TransportPanel} from "./transport-panel.js?v=transport-2";
-import {StudioCore} from "./studio-core.js?v=transport-3";
+import {StudioCore} from "./studio-core.js?v=industry-1";
 function node(tag,className,text){const el=document.createElement(tag);if(className)el.className=className;if(text!==undefined)el.textContent=text;return el;}
 export class StudioSystem{
  constructor(root,{core=new StudioCore(),layout="desktop",mode="auto",onLayoutChange=()=>{}}={}){this.root=root;this.core=core;this.layout=layout;this.mode=mode;this.onLayoutChange=onLayoutChange;if(!this.core.workflow.patterns.patterns.has("pattern-1"))this.core.workflow.patterns.create("pattern-1");for(const id of ["Kick","Snare","Hat","Bass"])if(!this.core.workflow.channelRack.channels.has(id))this.core.workflow.channelRack.add(id);}
@@ -11,7 +12,7 @@ export class StudioSystem{
  const brand=node("div","desktop-brand","F / R");const identity=node("div","desktop-identity");identity.append(node("strong","","Music Platform"),node("span","",this.layout.toUpperCase()+" WORKSPACE"));
  const back=node("a","back-link","← Front page");back.href="./index.html";const layoutLabel=node("label","layout-label","Layout ");const layoutSelect=node("select");layoutSelect.setAttribute("aria-label","Interface layout");for(const value of ["auto","mobile","tablet","desktop"]){const option=node("option","",value[0].toUpperCase()+value.slice(1));option.value=value;layoutSelect.append(option);}layoutSelect.value=this.mode;layoutSelect.addEventListener("change",()=>this.onLayoutChange(layoutSelect.value));layoutLabel.append(layoutSelect);top.append(brand,identity,layoutLabel,back);
  const toolbar=node("nav","desktop-tools");toolbar.setAttribute("aria-label","Open studio windows");
- for(const [id,label]of [["transport","Transport"],["overview","Workspace"],["rack","Channel rack"],["arrangement","Arrangement"],["systems","Systems"]]){
+ for(const [id,label]of [["transport","Transport"],["recording","Recording"],["overview","Workspace"],["rack","Channel rack"],["arrangement","Arrangement"],["systems","Systems"]]){
  const b=node("button","launcher",label);b.type="button";this.icons.decorate(b,id);b.addEventListener("click",()=>this.launch(id));toolbar.append(b);
  }
  toolbar.append(node("span","mockup-label","STUDIO PROTOTYPE · PATTERN AUDIO ENABLED"));
@@ -29,6 +30,8 @@ export class StudioSystem{
  if(id==="transport"){
  title="Transport";x=40;y=40;width=560;height=440;
  const panel=new TransportPanel(this.core.transportController).mount(content);onClose=()=>panel.dispose();
+ }else if(id==="recording"){
+ title="Recording";width=600;height=500;const panel=new RecordingPanel(this.core.recording).mount(content);onClose=()=>panel.dispose();
  }else if(id==="overview"){
  title="Workspace";x=54;y=36;width=370;height=280;
  content.append(node("span","eyebrow",this.layout.toUpperCase()+" WORKSPACE"),node("h1","",this.layout==="desktop"?"Your studio, in windows.":this.layout==="tablet"?"Your studio, side by side.":"One tool. Full focus."),node("p","",this.layout==="desktop"?"Open tools from the bar above. Drag title bars, resize from the lower corner, or maximize a window.":this.layout!=="desktop"?"Tap Home to open studio apps. Use Back or Recent apps to switch tools. Your pattern stays with you.":"Open tools from the launcher and switch between them using the bottom tabs. Your pattern stays with you."));
@@ -57,7 +60,8 @@ export class StudioSystem{
  }else{
  title="Systems";x=220;y=90;width=420;height=350;
  content.append(node("span","eyebrow","CONNECTED FOUNDATION"),node("h2","","One shared studio core"));
- const list=node("ul","system-list");for(const name of Object.keys(this.core.workflow))list.append(node("li","",name));content.append(list);
+ const list=node("ul","system-list");for(const name of Object.keys(this.core.workflow))list.append(node("li","",name));content.append(list,node("h2","","Audio, sound and music industries"),node("p","","Prototype means an available foundation; planned systems are a domain map, not completed software."));
+ for(const domain of this.core.industry.domains){const section=node("details","industry-domain");section.append(node("summary","",domain.name+" · "+domain.systems.length+" systems"));for(const system of domain.systems){const row=node("p","",system.name+" — "+system.status);if(system.tool){const button=node("button","launcher","Open");button.setAttribute("aria-label","Open "+system.name);button.addEventListener("click",()=>this.launch(system.tool));row.append(button);}section.append(row);}content.append(section);}
  }
  const state=this.windows.open({id,title,content,x,y,width,height,onClose});
  this.icons.decorate(state.task,id);

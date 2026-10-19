@@ -1,7 +1,7 @@
-import {MobileSystem} from "./mobile-system.js?v=tablet-1";
-import {TabletSystem} from "./tablet-system.js?v=tablet-1";
-import {DesktopSystem} from "./desktop-system.js?v=tablet-1";
-import {StudioCore} from "./studio-core.js?v=transport-3";
+import {MobileSystem} from "./mobile-system.js?v=industry-1";
+import {TabletSystem} from "./tablet-system.js?v=industry-1";
+import {DesktopSystem} from "./desktop-system.js?v=industry-1";
+import {StudioCore} from "./studio-core.js?v=industry-1";
 import {selectProfile} from "../browser-app.js?v=environment-1";
 import {observeViewport} from "../browser-viewport.js";
 export function selectInterface(viewport,mode="auto"){

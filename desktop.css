@@ -116,3 +116,5 @@ html[data-orientation="landscape"] [data-interface="tablet"] .mobile-app-grid{gr
 html[data-orientation="landscape"] [data-interface="tablet"] .mobile-home-note{grid-column:1/-1}
 
 [data-interface="tablet"] .mobile-home[hidden]{display:none!important}
+
+.recording-panel output{display:block;margin:16px 0;color:#c9e7ad}.recording-take{padding:16px;border:1px solid #526451;border-radius:16px;margin:16px 0}.recording-take audio{display:block;width:100%;margin:12px 0}.industry-domain{padding:14px 0;border-bottom:1px solid #435349}.industry-domain summary{cursor:pointer;font-size:14px}.industry-domain p{display:flex;gap:12px;justify-content:space-between;align-items:center}
