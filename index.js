@@ -1,4 +1,4 @@
-import {platform} from "./platform-manifest.js";
+import {platform} from "./platform-manifest.js?v=workspaces-2";
 function element(tag,text,className){const item=document.createElement(tag);if(text)item.textContent=text;if(className)item.className=className;return item;}
 export class MusicPlatform{
  constructor(root=document.getElementById("app")){this.root=root;}
@@ -15,7 +15,7 @@ export class MusicPlatform{
  .planned{margin-top:auto;font-size:12px;color:#93a197}footer{display:flex;gap:18px;flex-wrap:wrap;margin-top:32px;font-size:12px}footer a{color:#b8cbbd}a:focus-visible{outline:2px solid #fff;outline-offset:4px}
  @media(max-width:800px){.workspaces{grid-template-columns:1fr}#app{padding:30px 18px}}
  `;document.head.append(style);
- const header=element("header");header.append(element("span","FEELESS RECORDS","label"),element("h1",platform.name),element("p","One music platform for editing, performing, and producing."));
+ const header=element("header");header.append(element("span","FEELESS RECORDS","label"),element("h1",platform.name),element("p","One music platform for listening, broadcasting, editing, performing, and producing."));
  const workspaces=element("section",null,"workspaces");workspaces.setAttribute("aria-label","Music workspaces");
  for(const workspace of platform.workspaces){
  const card=element("article");card.append(element("span",workspace.status==="prototype"?"Working prototype":"Planned workspace","state"),element("h2",workspace.name),element("p",workspace.description));

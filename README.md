@@ -7,6 +7,8 @@ Main development repository for the integrated Feeless Records music software pl
 | Audio Editor | Waveform editing, trimming, splitting, fades, sample processing and export | Planned |
 | DJ Workspace | Decks, cue points, tempo/beat alignment, crossfader/EQ and mix recording | Planned |
 | Digital Audio Workstation | Patterns, composition, sequencing, arrangement, synthesis, MIDI and rendering | Working prototype; partial integration |
+| Radio Workspace | Programme playlists, scheduling, live/recorded shows and stream management | Planned |
+| Music Workspace | Music library, tracks/artists/releases, playlists, listening queue, metadata and search | Planned |
 
 ## Entry points
 - index.html loads index.js, which builds the platform entry page.
@@ -36,3 +38,5 @@ The repository is public. GitHub Pages publishes main/root at https://feeless-re
 5. Cross-workspace media/library integration and export.
 
 No complete DAW, DJ suite or audio editor is claimed at this stage.
+
+Radio covers programme and broadcast operations. Music covers library organization and listening; editing, DJ performance and production remain in their dedicated workspaces. These workspace capabilities are planned and are not yet implemented.
