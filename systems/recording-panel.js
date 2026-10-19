@@ -1,7 +1,7 @@
 export class RecordingPanel{
  constructor(recording){this.recording=recording;this.urls=[];}
  mount(root){
- const doc=root.ownerDocument;this.root=root;root.classList.add("recording-panel");
+ const recording=this.recording;const doc=root.ownerDocument;this.root=root;root.classList.add("recording-panel");
  const heading=doc.createElement("h2");heading.textContent="Audio recording";
  const note=doc.createElement("p");note.textContent="Record microphone or audio-interface input. Start requests browser permission. Monitoring is off. Takes stay in this tab until downloaded; reloading loses unsaved takes. Export uses the browser’s supported audio format.";
  this.status=doc.createElement("output");this.status.setAttribute("aria-live","polite");

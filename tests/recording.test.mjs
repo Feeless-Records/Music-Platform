@@ -32,3 +32,8 @@ test("industry systems have unique domain identifiers and honest capability stat
  assert.ok(systems.length>=70);assert.ok(industry.list({status:"planned"}).length>60);assert.equal(industry.get("audio.audio-recording").tool,"recording");
  assert.throws(()=>industry.get("missing"));assert.ok(industry.list({domain:"events"}).every(s=>s.id.startsWith("events.")));
 });
+test("recording panel mounts with idle controls without requesting microphone",async()=>{
+ const {RecordingPanel}=await import("../systems/recording-panel.js");const {recording,calls}=setup();
+ const doc={createElement:()=>({ownerDocument:doc,children:[],classList:{add(){}},setAttribute(){},append(...items){this.children.push(...items);},replaceChildren(){this.children=[];},addEventListener(){}})};
+ const panel=new RecordingPanel(recording).mount(doc.createElement("div"));assert.equal(calls(),0);assert.equal(panel.buttons["Start recording"].disabled,false);assert.equal(panel.buttons["Stop recording"].disabled,true);panel.dispose();assert.equal(recording.listeners.size,0);
+});
