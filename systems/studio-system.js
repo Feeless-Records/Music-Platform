@@ -13,10 +13,10 @@ export class StudioSystem{
  for(const [id,label]of [["transport","Transport"],["overview","Workspace"],["rack","Channel rack"],["arrangement","Arrangement"],["systems","Systems"]]){
  const b=node("button","launcher",label);b.type="button";b.addEventListener("click",()=>this.launch(id));toolbar.append(b);
  }
- toolbar.append(node("span","mockup-label","DESKTOP LAB · PATTERN AUDIO ENABLED"));
+ toolbar.append(node("span","mockup-label","STUDIO PROTOTYPE · PATTERN AUDIO ENABLED"));
  const workspace=node("main","desktop-workspace");workspace.setAttribute("aria-label","Studio desktop");
  const watermark=node("div","desktop-watermark");watermark.append(node("span","","FEELESS RECORDS"),node("strong","","Make room for sound."));workspace.append(watermark);
- const footer=node("footer","desktop-taskbar");const label=node("span","taskbar-label","WINDOWS");const tasks=node("div","task-list");tasks.setAttribute("aria-label","Open windows");footer.append(label,tasks,node("span","lab-status","Test environment"));
+ const footer=node("footer","desktop-taskbar");const label=node("span","taskbar-label",this.layout==="desktop"?"WINDOWS":"TOOLS");const tasks=node("div","task-list");tasks.setAttribute("aria-label","Open windows");footer.append(label,tasks,node("span","lab-status","Test environment"));
  this.root.replaceChildren(top,toolbar,workspace,footer);this.windows=this.createManager(workspace,tasks);
  for(const id of panels)this.launch(id);
  this.onResize=()=>this.windows.reflow();this.observer=typeof ResizeObserver==="undefined"?null:new ResizeObserver(this.onResize);this.observer?.observe(workspace);
@@ -30,8 +30,8 @@ export class StudioSystem{
  const panel=new TransportPanel(this.core.transportController).mount(content);onClose=()=>panel.dispose();
  }else if(id==="overview"){
  title="Workspace";x=54;y=36;width=370;height=280;
- content.append(node("span","eyebrow","DESKTOP + WINDOW SYSTEM"),node("h1","","Your studio, in windows."),node("p","","Open tools from the bar above. Drag title bars, resize from the lower corner, or maximize a window."));
- const list=node("ul","");for(const text of ["Minimize to the taskbar; click to restore.","Close and reopen tools without resetting the pattern.","Keyboard: focus a title bar or resize handle and use arrow keys."])list.append(node("li","",text));content.append(list);
+ content.append(node("span","eyebrow",this.layout.toUpperCase()+" WORKSPACE"),node("h1","",this.layout==="desktop"?"Your studio, in windows.":this.layout==="tablet"?"Your studio, side by side.":"One tool. Full focus."),node("p","",this.layout==="desktop"?"Open tools from the bar above. Drag title bars, resize from the lower corner, or maximize a window.":"Open tools from the launcher and switch between them using the bottom tabs. Your pattern stays with you."));
+ const list=node("ul","");for(const text of (this.layout==="desktop"?["Minimize to the taskbar; click to restore.","Close and reopen tools without resetting the pattern.","Keyboard: focus a title bar or resize handle and use arrow keys."]:["Close and reopen tools without resetting the pattern.",this.layout==="tablet"?"Two tools stay visible together.":"The selected tool fills the workspace.","Use Layout to try another interface."]))list.append(node("li","",text));content.append(list);
  }else if(id==="rack"){
  title="Channel rack";x=450;y=70;width=570;height=320;
  content.append(node("span","eyebrow","PATTERN 01 / 16 STEPS"),node("h2","","Build a rhythm"),node("p","","Toggle steps, then open Transport and press Play. Pattern voices currently use a saw oscillator."));
